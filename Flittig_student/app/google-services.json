@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "525362597309",
+    "project_id": "flittigstudent-4530b",
+    "storage_bucket": "flittigstudent-4530b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525362597309:android:2e7a1f2ad0a2dbe8e616d4",
+        "android_client_info": {
+          "package_name": "no.hvl.dat251.flittig_student"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "525362597309-aogfnqavqgcvb1r80b9nadqg3m33l7a1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDi76778XRlO775DWlBnhuvIDv3rhQWJMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "525362597309-aogfnqavqgcvb1r80b9nadqg3m33l7a1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
