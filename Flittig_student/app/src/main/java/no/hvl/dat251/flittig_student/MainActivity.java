@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSignOut;
     private int RC_SIGN_IN = 1;
 
+    public void openNewActivity(){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +48,7 @@ public class MainActivity extends AppCompatActivity {
         btnSignOut = findViewById(R.id.sign_out_button);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
+                .requestIdToken("525362597309-aogfnqavqgcvb1r80b9nadqg3m33l7a1.apps.googleusercontent.com")
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -54,8 +58,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 signIn();
                 btnSignOut.setVisibility(View.VISIBLE);
+                openNewActivity();
             }
         });
+
 
 
         btnSignOut.setOnClickListener(new View.OnClickListener() {
