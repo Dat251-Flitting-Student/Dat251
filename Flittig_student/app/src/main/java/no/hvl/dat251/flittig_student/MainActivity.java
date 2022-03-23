@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         btnSignOut = findViewById(R.id.sign_out_button);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken(getString(R.string.default_web_client_id)) //TODO: wtf buggy andorid studio
                 .requestEmail()
                 .build();
 
@@ -148,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             signInButton.setVisibility(View.GONE);
             btnSignOut.setVisibility(View.VISIBLE);
+
+            Intent showMap = new Intent(this, MapsActivity.class);
+            startActivity(showMap);
         } else {
             signInButton.setVisibility(View.VISIBLE);
             btnSignOut.setVisibility(View.GONE);
