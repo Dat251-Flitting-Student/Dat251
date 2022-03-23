@@ -110,6 +110,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         ref.setValue(location);
 
+                        if(isInGrid(location))
+                            System.out.println("Du er på riktig sted!!");
+                        else
+                            System.out.println("Du er uten for området!!");
+
                     }else {
                         Log.e(TAG, "No location found");
                     }
@@ -132,5 +137,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.e(TAG, "Location permission has been denied");
             }
         }
+    }
+
+    private boolean isInGrid(Location location){
+        System.out.println(location);
+        System.out.println(distanceFromHVL(location));
+
+        if (distanceFromHVL(location) < 100) {
+
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    private float distanceFromHVL(Location userLoc) {
+        LatLng latLngHVL = new LatLng(60.36891982478414, 5.351046742392926);
+
+        float results[] = new float[1];
+
+        Location.distanceBetween(latLngHVL.latitude, latLngHVL.longitude, userLoc.getLatitude(), userLoc.getLongitude(), results);
+
+        return results[0];
     }
 }
