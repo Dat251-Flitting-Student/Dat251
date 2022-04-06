@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ic_home"
+        android:title=""
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/ic_scores"
+        android:title=""
+        android:icon="@drawable/ic_scores"/>
+
+    <item
+        android:id="@+id/ic_prize"
+        android:title=""
+        android:icon="@drawable/ic_prize"/>
+
+    <item
+        android:id="@+id/ic_calendar"
+        android:title=""
+        android:icon="@drawable/ic_calendar"/>
+
+    <item
+        android:id="@+id/ic_profile"
+        android:title=""
+        android:icon="@drawable/ic_profile"/>
+</menu>
