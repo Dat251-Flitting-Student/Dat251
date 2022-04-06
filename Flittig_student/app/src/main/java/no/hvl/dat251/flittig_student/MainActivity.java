@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             signInButton.setVisibility(View.GONE);
             btnSignOut.setVisibility(View.VISIBLE);
 
-            Intent showMap = new Intent(this, MapsActivity.class);
+            Intent showMap = new Intent(this, CheckInActivity.class);
             startActivity(showMap);
         } else {
             signInButton.setVisibility(View.VISIBLE);

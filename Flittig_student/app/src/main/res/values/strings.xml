@@ -2,4 +2,7 @@
     <string name="app_name">Flittig student</string>
     <string name="sign_out">Sign out</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="check_in">Sjekk inn</string>
+    <string name="timerText">TextView</string>
+    <string name="app_logo">Flittig student logo</string>
 </resources>
