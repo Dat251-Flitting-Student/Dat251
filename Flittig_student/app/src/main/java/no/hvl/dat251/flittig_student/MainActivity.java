@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
         btnSignOut = findViewById(R.id.sign_out_button);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("525362597309-aogfnqavqgcvb1r80b9nadqg3m33l7a1.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.default_web_client_id)) //TODO: wtf buggy andorid studio
+                .requestEmail()
+
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -154,7 +156,12 @@ public class MainActivity extends AppCompatActivity {
             signInButton.setVisibility(View.GONE);
             btnSignOut.setVisibility(View.VISIBLE);
 
+            //Where to after sign in? 
+            //Intent showMap = new Intent(this, CheckInActivity.class);
+            //startActivity(showMap);
+
             openNewActivity();
+
         } else {
             signInButton.setVisibility(View.VISIBLE);
             btnSignOut.setVisibility(View.GONE);

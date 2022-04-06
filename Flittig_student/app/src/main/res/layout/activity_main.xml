@@ -4,9 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@color/green3"
-    >
+    android:background="@color/green5"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="19dp"
+        android:contentDescription="@string/app_logo"
+        app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/flittigstudentlogo" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
@@ -16,8 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.37" />
-
+        app:layout_constraintVertical_bias="0.538" />
 
     <Button
         android:id="@+id/sign_out_button"
@@ -26,7 +36,8 @@
         android:layout_marginStart="153dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="153dp"
-        android:layout_marginBottom="342dp"
+        android:layout_marginBottom="260dp"
+        android:backgroundTint="@color/green2"
         android:text="@string/sign_out"
         android:textColor="#212121"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,6 +45,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sign_in_button"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
