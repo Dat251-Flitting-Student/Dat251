@@ -134,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             signInButton.setVisibility(View.INVISIBLE);
             btnSignOut.setVisibility(View.VISIBLE);
+
+            openNewActivity();
         } else {
             signInButton.setVisibility(View.VISIBLE);
             btnSignOut.setVisibility(View.INVISIBLE);
