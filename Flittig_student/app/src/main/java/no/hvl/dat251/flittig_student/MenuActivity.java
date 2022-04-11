@@ -1,11 +1,16 @@
 package no.hvl.dat251.flittig_student;
-import java.io.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import android.os.Bundle;
+
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
+
+import no.hvl.dat251.flittig_student.fragment.CalendarFragment;
+import no.hvl.dat251.flittig_student.fragment.HomeFragment;
+import no.hvl.dat251.flittig_student.fragment.PrizeFragment;
+import no.hvl.dat251.flittig_student.fragment.ProfileFragment;
+import no.hvl.dat251.flittig_student.fragment.ScoresFragment;
 
 
 public class MenuActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
