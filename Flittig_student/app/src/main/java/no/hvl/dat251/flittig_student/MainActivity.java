@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
     //private final int RC_SIGN_IN = 1;
 
     public void openNewActivity(){
-        Intent intent = new Intent(this, MenuActivity.class);
+        /*Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);*/
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 
@@ -165,6 +167,9 @@ public class MainActivity extends AppCompatActivity {
             //Where to after sign in? 
             //Intent showMap = new Intent(this, CheckInActivity.class);
             //startActivity(showMap);
+
+            //Intent showProfile = new Intent(this, ProfileActivity.class);
+            //startActivity(showProfile);
 
             openNewActivity();
 

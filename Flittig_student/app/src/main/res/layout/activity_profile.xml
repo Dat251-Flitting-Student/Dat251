@@ -8,22 +8,6 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="71dp"
-        android:padding="20dp"
-        android:background="@color/green">
-
-        <TextView
-            android:id="@+id/header_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="Flittig Student"
-            android:textColor="@color/white"
-            android:textSize="57px"/>
-    </RelativeLayout>
-
     <ImageView
         android:id="@+id/profile_picture"
         android:layout_width="200dp"
@@ -32,7 +16,7 @@
         android:layout_gravity="center_horizontal"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <EditText
+    <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,7 +26,7 @@
         android:inputType="textPersonName"
         android:text="Navn:" />
 
-    <EditText
+    <TextView
         android:id="@+id/school"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,15 +36,15 @@
         android:inputType="textPersonName"
         android:text="Skole:" />
 
-    <EditText
+    <TextView
         android:id="@+id/points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:layout_gravity="center_horizontal"
-        android:padding="30dp"
-        android:text="Poeng:"
-        android:inputType="number" />
+        android:ems="10"
+        android:inputType="number"
+        android:padding="20dp"
+        android:text="Poeng:"/>
 
     <Button
         android:id="@+id/sign_out_button"

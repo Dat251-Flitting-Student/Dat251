@@ -20,9 +20,9 @@
         <activity
             android:name=".CheckInActivity"
             android:exported="false" />
-
-        <activity android:name=".MenuActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".MenuActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
