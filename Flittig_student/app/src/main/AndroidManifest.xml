@@ -19,6 +19,8 @@
 
             android:name=".HomeActivity"
             android:exported="false" />
+
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -35,8 +37,7 @@
             android:value="AIzaSyDrdkhVWLNr-vsVAzc3_0kB5OBWsEDvOdU" />
 
 
-            android:name=".MenuActivity"
-            android:exported="false" />
+
 
         <activity
             android:name=".MainActivity"
