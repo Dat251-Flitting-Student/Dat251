@@ -41,8 +41,8 @@ public class MainActivity extends AppCompatActivity {
     //private final int RC_SIGN_IN = 1;
 
     public void openNewActivity(){
-        /*Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);*/
+        //Intent intent = new Intent(this, MenuActivity.class);
+        //startActivity(intent);
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
