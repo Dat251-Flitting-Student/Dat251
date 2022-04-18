@@ -19,31 +19,45 @@ public class ProfileActivity extends AppCompatActivity {
     /*
     This class contains the behaviour for the points as well as displaying user info.
    The information needed to get the different fields are found in UserInfo.
+
+   Total points: what the user has earned in total
+   Current points: what the user has at this exact moment after spending etc.
      */
 
     private static final String TAG = "ProfileActivity";
     private int points = 0;
 
+    /*
     public void setCurrentPoints(int value) {
         // Set points for the user.
+        //TODO: instead of this method, maybe a calculating of total minus how much is spent.
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(UserInfo.getUID());
+        DatabaseReference myRef = database.getReference();
 
-        myRef.setValue(value);
+        myRef.child("users").child(UserInfo.getUID()).child("points").child("current").setValue(value);
+
+    }
+     */
+
+    private void setPoints(int value) {
+        /* Set the total points for the user. */
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("users").child(UserInfo.getUID()).child("points").child("total").setValue(value);
     }
 
-    public void incrementCurrentPoints(){
-        // increment the points of the user.
-        int points = getCurrentPoints();
+    public void incrementPoints(){
+        /* increment the points of the user. */
+        int points = getPoints();
         if (points > 0) {
-            setCurrentPoints(points + 1);
+            setPoints(points + 1);
         }
     }
 
-    public int getCurrentPoints() {
-        // Get the current points from the user (only once).
+    public int getPoints() {
+        /* Get the current points from the user (only once). */
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(UserInfo.getUID());
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
 
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -62,13 +76,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     //TODO: implement a method that keeps track of all the points they have earned in total.
     public int pointsInTotal() {
-        // lagre som json objekt?
+        /* lagre som json objekt? */
         return 0;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // This is what happens when this activity is activated.
+        /* This is what happens when this activity is activated. */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
@@ -83,9 +97,11 @@ public class ProfileActivity extends AppCompatActivity {
         school.setText("Skole: " + UserInfo.school());
 
 
+        setPoints(5);
         // Get the points from the database, updated automatically.
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(UserInfo.getUID());
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -98,11 +114,12 @@ public class ProfileActivity extends AppCompatActivity {
                         Log.d(TAG, "Value is: " + value);
                         TextView points = (TextView) findViewById(R.id.points);
                         points.setText("Poeng: " + value);
+                        //incrementPoints();
                     }
                 }
                 catch (NullPointerException ex){
                     //if the user does not have any points from before, set them to 0.
-                    setCurrentPoints(0);
+                    setPoints(0);
                     ex.printStackTrace();
                 }
             }
