@@ -25,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity {
      */
 
     private static final String TAG = "ProfileActivity";
-    private int points = 0;
+    private int points = -1;
 
     /*
     public void setCurrentPoints(int value) {
@@ -46,13 +46,31 @@ public class ProfileActivity extends AppCompatActivity {
         myRef.child("users").child(UserInfo.getUID()).child("points").child("total").setValue(value);
     }
 
-    public void incrementPoints(){
-        /* increment the points of the user. */
-        int points = getPoints();
-        if (points > 0) {
-            setPoints(points + 1);
-        }
+    public void incrementPoints() {
+        /* Increment the points of the user. */
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+
+        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    int value = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+                    // the incrementation
+                    if (value > 0) {
+                        setPoints(value + 1);
+                    }
+                }
+            }
+        });
     }
+
+
 
     public int getPoints() {
         /* Get the current points from the user (only once). */
@@ -60,6 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
         DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
 
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 if (!task.isSuccessful()) {
@@ -68,11 +87,38 @@ public class ProfileActivity extends AppCompatActivity {
                 else {
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
                     points = Integer.parseInt(String.valueOf(task.getResult().getValue()));
+
                 }
             }
         });
         return points;
     }
+
+
+    //TODO: implement getPoints to not retrieve the value asynch.
+
+    /*
+    public void getPoints() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+
+        myRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot task) {
+                        String value = task.getValue().toString();
+                        System.out.println("HALLO " + value);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                }
+        );
+    }
+     */
+
 
     //TODO: implement a method that keeps track of all the points they have earned in total.
     public int pointsInTotal() {
@@ -97,7 +143,6 @@ public class ProfileActivity extends AppCompatActivity {
         school.setText("Skole: " + UserInfo.school());
 
 
-        setPoints(5);
         // Get the points from the database, updated automatically.
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
@@ -114,7 +159,6 @@ public class ProfileActivity extends AppCompatActivity {
                         Log.d(TAG, "Value is: " + value);
                         TextView points = (TextView) findViewById(R.id.points);
                         points.setText("Poeng: " + value);
-                        //incrementPoints();
                     }
                 }
                 catch (NullPointerException ex){
