@@ -1,8 +1,5 @@
 package no.hvl.dat251.flittig_student;
 
-
-//import androidx.activity.result.ActivityResult;
-//import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,13 +29,12 @@ public class MainActivity extends AppCompatActivity {
 
     private SignInButton signInButton;
     private GoogleSignInClient mGoogleSignInClient;
-    private final String TAG = "MainActivity";
+    private final String TAG = "SignInActivity";
     private FirebaseAuth mAuth;
     private Button btnSignOut;
-    //private final int RC_SIGN_IN = 1;
 
     public void openNewActivity(){
-        Intent intent = new Intent(this, MenuActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_signin);
 
         signInButton = findViewById(R.id.sign_in_button);
         mAuth = FirebaseAuth.getInstance();
@@ -65,15 +61,12 @@ public class MainActivity extends AppCompatActivity {
             //btnSignOut.setVisibility(View.VISIBLE);
         });
 
-
         btnSignOut.setOnClickListener(view -> {
             mAuth.signOut();
             btnSignOut.setVisibility(View.GONE);
             signInButton.setVisibility(View.VISIBLE);
 
         });
-
-
 
     }
 
@@ -147,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
-
-
 
     private void updateUI(FirebaseUser user) {
         //hideProgressDialog();
