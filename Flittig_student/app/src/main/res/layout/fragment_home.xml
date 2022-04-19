@@ -8,29 +8,6 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="211dp"
-        android:layout_height="95dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="109dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="80dp"
-        android:text="@string/timerText"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="30sp" />
 
-    <Button
-        android:id="@+id/checkInBtn"
-        android:layout_width="139dp"
-        android:layout_height="147dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="292dp"
-        android:layout_marginEnd="136dp"
-        android:layout_marginBottom="292dp"
-        android:text="@string/check_in"
-        android:textColor="@color/white"
-        app:cornerRadius="100dp" />
 
 </FrameLayout>

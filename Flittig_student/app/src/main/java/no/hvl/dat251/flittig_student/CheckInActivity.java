@@ -3,8 +3,12 @@ package no.hvl.dat251.flittig_student;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -20,11 +24,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import no.hvl.dat251.flittig_student.databinding.ActivityCheckInBinding;
+import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
 
 
 public class CheckInActivity extends AppCompatActivity {
-
-
 
     //use it to request location updates and get the latest location
     private FusedLocationProviderClient fusedLocClient;
@@ -35,15 +39,16 @@ public class CheckInActivity extends AppCompatActivity {
     protected Button checkInBtn;
     private TextView time;
 
+    ActivityCheckInBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check_in);
 
+        binding = ActivityCheckInBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        //binding = ActivityMapsBinding.inflate(getLayoutInflater());
-        //setContentView(binding.getRoot());
-
+        binding.bottomNavigationView.setSelectedItemId(R.id.ic_prize);
 
         setupLocClient();
 
@@ -52,17 +57,49 @@ public class CheckInActivity extends AppCompatActivity {
         checkInBtn = findViewById(R.id.checkInBtn);
         time = findViewById(R.id.time);
 
-        //LocationRequest locationRequest = createLocationRequest();
-
-
-
         checkInBtn.setOnClickListener(view -> {
 
-            //fusedLocClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
             time.setText("Hei");
 
         });
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.ic_calendar:
+                    replaceFragment(new CalendarFragment());
+                    return true;
+
+                case R.id.ic_home:
+                    Intent intent = new Intent(this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    return true;
+
+                case R.id.ic_prize:
+                    replaceFragment(new PrizeFragment());
+                    return true;
+
+                case R.id.ic_profile:
+                    replaceFragment(new ProfileFragment());
+                    return true;
+
+                case R.id.ic_scores:
+                    replaceFragment(new ScoresFragment());
+                    return true;
+
+            }
+            return true;
+        });
+
     }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment, fragment);
+        fragmentTransaction.commit();
+    }
+
 
     private void setupLocClient() {
         fusedLocClient = LocationServices.getFusedLocationProviderClient(this);

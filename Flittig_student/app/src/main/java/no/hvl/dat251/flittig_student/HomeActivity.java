@@ -2,73 +2,69 @@ package no.hvl.dat251.flittig_student;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
 
-public class HomeActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
-    BottomNavigationView bottomNavigationView;
+public class HomeActivity extends AppCompatActivity {
+
+
+    ActivityHomeBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        bottomNavigationView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) this);
-        bottomNavigationView.setSelectedItemId(R.id.ic_home);
+        binding.bottomNavigationView.setSelectedItemId(R.id.ic_home);
+        //replaceFragment(new HomeFragment());
 
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.ic_calendar:
+                    replaceFragment(new CalendarFragment());
+                    return true;
+
+                case R.id.ic_home:
+                    replaceFragment(new HomeFragment());
+                    return true;
+
+                case R.id.ic_prize:
+                    //replaceFragment(new PrizeFragment());
+                    Intent intent = new Intent(this, CheckInActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    return true;
+
+                case R.id.ic_profile:
+                    replaceFragment(new ProfileFragment());
+                    return true;
+
+                case R.id.ic_scores:
+                    replaceFragment(new ScoresFragment());
+                    return true;
+
+            }
+            return true;
+        });
 
     }
 
-    CalendarFragment calendarFragment = new CalendarFragment();
-    HomeFragment homeFragment = new HomeFragment();
-    PrizeFragment prizeFragment = new PrizeFragment();
-    ProfileFragment profileFragment = new ProfileFragment();
-    ScoresFragment scoresFragment = new ScoresFragment();
-
-    @SuppressLint("NonConstantResourceId") //usikker på hva gjor men den ville ha den
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.ic_calendar:
-                getSupportFragmentManager().beginTransaction().replace(R.id.ic_calendar, calendarFragment).commit();
-                return true;
-
-            case R.id.ic_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.ic_home, homeFragment).commit();
-                //setFragment();
-                return true;
-
-            case R.id.ic_prize:
-                getSupportFragmentManager().beginTransaction().replace(R.id.ic_prize, prizeFragment).commit();
-                return true;
-
-            case R.id.ic_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.ic_profile, profileFragment).commit();
-                return true;
-
-            case R.id.ic_scores:
-                getSupportFragmentManager().beginTransaction().replace(R.id.ic_scores, scoresFragment).commit();
-                return true;
-
-        }
-        return false;
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.flFragment, fragment);
+        fragmentTransaction.commit();
     }
 
-    protected void setFragment() {
-        // Begin the transaction
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        // Replace the contents of the container with the new fragment
-        ft.replace(R.id.flFragment, new HomeFragment());
-        // or ft.add(R.id.your_placeholder, new ABCFragment());
-        // Complete the changes added above
-        ft.commit();
-    }
 }
