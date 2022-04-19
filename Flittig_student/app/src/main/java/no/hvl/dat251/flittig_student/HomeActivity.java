@@ -12,6 +12,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
+import no.hvl.dat251.flittig_student.fragment.CalendarFragment;
+import no.hvl.dat251.flittig_student.fragment.ScoresFragment;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -30,24 +32,26 @@ public class HomeActivity extends AppCompatActivity {
         //replaceFragment(new HomeFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            Intent intent;
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
                     replaceFragment(new CalendarFragment());
                     return true;
 
                 case R.id.ic_home:
-                    replaceFragment(new HomeFragment());
                     return true;
 
                 case R.id.ic_prize:
                     //replaceFragment(new PrizeFragment());
-                    Intent intent = new Intent(this, CheckInActivity.class);
+                    intent = new Intent(this, CheckInActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     return true;
 
                 case R.id.ic_profile:
-                    replaceFragment(new ProfileFragment());
+                    intent = new Intent(this, ProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                     return true;
 
                 case R.id.ic_scores:

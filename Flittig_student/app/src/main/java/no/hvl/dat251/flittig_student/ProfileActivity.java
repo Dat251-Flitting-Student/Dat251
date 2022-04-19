@@ -3,6 +3,7 @@ package no.hvl.dat251.flittig_student;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -14,6 +15,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import no.hvl.dat251.flittig_student.databinding.ActivityCheckInBinding;
+import no.hvl.dat251.flittig_student.databinding.ActivityProfileBinding;
 
 public class ProfileActivity extends AppCompatActivity {
     /*
@@ -126,12 +130,45 @@ public class ProfileActivity extends AppCompatActivity {
         return 0;
     }
 
+    ActivityProfileBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /* This is what happens when this activity is activated. */
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        binding = ActivityProfileBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
+        binding.bottomNavigationView.setSelectedItemId(R.id.ic_profile);
+
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.ic_calendar:
+                    //replaceFragment(new CalendarFragment());
+                    return true;
+
+                case R.id.ic_home:
+                    Intent intent = new Intent(this, HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    return true;
+
+                case R.id.ic_prize:
+                    intent = new Intent(this, CheckInActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    return true;
+
+                case R.id.ic_profile:
+
+                    return true;
+
+                case R.id.ic_scores:
+                    //replaceFragment(new ScoresFragment());
+                    return true;
+
+            }
+            return true;
+        });
         // TODO: add profile picture
 
         // display the username

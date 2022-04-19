@@ -26,6 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import no.hvl.dat251.flittig_student.databinding.ActivityCheckInBinding;
 import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
+import no.hvl.dat251.flittig_student.fragment.CalendarFragment;
+import no.hvl.dat251.flittig_student.fragment.PrizeFragment;
 
 
 public class CheckInActivity extends AppCompatActivity {
@@ -66,7 +68,7 @@ public class CheckInActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
-                    replaceFragment(new CalendarFragment());
+                    //replaceFragment(new CalendarFragment());
                     return true;
 
                 case R.id.ic_home:
@@ -76,15 +78,17 @@ public class CheckInActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_prize:
-                    replaceFragment(new PrizeFragment());
+                    //replaceFragment(new PrizeFragment());
                     return true;
 
                 case R.id.ic_profile:
-                    replaceFragment(new ProfileFragment());
+                    intent = new Intent(this, ProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                     return true;
 
                 case R.id.ic_scores:
-                    replaceFragment(new ScoresFragment());
+                    //replaceFragment(new ScoresFragment());
                     return true;
 
             }
