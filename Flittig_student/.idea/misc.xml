@@ -9,13 +9,17 @@
         <entry key="..\:/Users/hsm20/AndroidStudioProjects/Flittig_student/app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="..\:/Users/hsm20/AndroidStudioProjects/Flittig_student/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.183" />
         <entry key="..\:/Users/hsm20/AndroidStudioProjects/Flittig_student/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.183" />
-
+        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/drawable-anydpi/ic_calendar.xml" value="0.1" />
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.111" />
+        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.1" />
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/activity_check_in.xml" value="0.1" />
-        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/activity_home.xml" value="0.12" />
+        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/activity_homectivity.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/activity_main.xml" value="0.17864583333333334" />
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/activity_maps.xml" value="0.2" />
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/activity_menu.xml" value="0.184375" />
-        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/content_homectivity.xml" value="0.184375" />
+        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/activity_signIn.xml" value="0.13269927536231885" />
+        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/content_homectivity.xml" value="0.16799999999999998" />
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/fragment_calendar.xml" value="0.184375" />
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/fragment_first.xml" value="0.184375" />
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/fragment_home.xml" value="0.184375" />
@@ -23,10 +27,7 @@
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/fragment_profile.xml" value="0.184375" />
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/fragment_scores.xml" value="0.184375" />
         <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/fragment_second.xml" value="0.184375" />
-        <entry key="..\:/Users/solma/AndroidStudioProjects/Dat251/Flittig_student/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2265" />
-        <entry key="..\:/Users/solma/AndroidStudioProjects/Dat251/Flittig_student/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2265" />
-        <entry key="..\:/Users/solma/AndroidStudioProjects/Dat251/Flittig_student/app/src/main/res/layout/activity_maps.xml" value="0.22826086956521738" />
-
+        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
         <entry key="..\:/Users/malin/OneDrive/Documents/dat251/Dat251/Flittig_student/app/src/main/res/drawable-anydpi/ic_calendar.xml" value="0.1505" />
         <entry key="..\:/Users/malin/OneDrive/Documents/dat251/Dat251/Flittig_student/app/src/main/res/drawable-anydpi/ic_home.xml" value="0.1325" />
         <entry key="..\:/Users/malin/OneDrive/Documents/dat251/Dat251/Flittig_student/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1325" />
@@ -40,10 +41,9 @@
         <entry key="..\:/Users/malin/OneDrive/Documents/dat251/Dat251/Flittig_student/app/src/main/res/layout/fragment_profile.xml" value="0.14492753623188406" />
         <entry key="..\:/Users/malin/OneDrive/Documents/dat251/Dat251/Flittig_student/app/src/main/res/layout/fragment_scores.xml" value="0.1" />
         <entry key="..\:/Users/malin/OneDrive/Documents/dat251/Dat251/Flittig_student/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
-
-        <entry key="..\:/Users/hsm20/OneDrive/Lenovo/Documents/UiB-VildePC/DAT251/Dat251/Flittig_student/app/src/main/res/layout/activity_main.xml" value="0.17864583333333334" />
-
-
+        <entry key="..\:/Users/solma/AndroidStudioProjects/Dat251/Flittig_student/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2265" />
+        <entry key="..\:/Users/solma/AndroidStudioProjects/Dat251/Flittig_student/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2265" />
+        <entry key="..\:/Users/solma/AndroidStudioProjects/Dat251/Flittig_student/app/src/main/res/layout/activity_maps.xml" value="0.22826086956521738" />
       </map>
     </option>
   </component>

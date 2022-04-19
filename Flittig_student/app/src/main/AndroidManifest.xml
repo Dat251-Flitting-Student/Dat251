@@ -17,8 +17,19 @@
         android:theme="@style/Theme.Flittig_student">
         <activity
 
+            android:name=".HomeActivity"
+            android:exported="false"/>
+            <!--android:theme="@style/noAnimTheme"-->
+
+
+        <activity
+
             android:name=".CheckInActivity"
-            android:exported="false" />
+            android:exported="false"/>
+            <!--android:theme="@style/noAnimTheme"-->
+
+
+
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -35,8 +46,7 @@
             android:value="AIzaSyDrdkhVWLNr-vsVAzc3_0kB5OBWsEDvOdU" />
 
 
-            android:name=".MenuActivity"
-            android:exported="false" />
+
 
         <activity
             android:name=".MainActivity"

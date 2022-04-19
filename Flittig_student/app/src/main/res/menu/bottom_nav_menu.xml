@@ -2,26 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/ic_home"
-        android:title=""
+        android:title="Home"
         android:icon="@drawable/ic_home"/>
 
     <item
         android:id="@+id/ic_scores"
-        android:title=""
+        android:title="Scores"
         android:icon="@drawable/ic_scores"/>
 
     <item
         android:id="@+id/ic_prize"
-        android:title=""
+        android:title="Prize"
         android:icon="@drawable/ic_prize"/>
 
     <item
         android:id="@+id/ic_calendar"
-        android:title=""
+        android:title="Calendar"
         android:icon="@drawable/ic_calendar"/>
 
     <item
         android:id="@+id/ic_profile"
-        android:title=""
+        android:title="Profile"
         android:icon="@drawable/ic_profile"/>
 </menu>
