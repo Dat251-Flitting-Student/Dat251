@@ -24,6 +24,8 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -126,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "signInWithCredential:success");
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
+                        // Her skal ein få det til å legge inn i databasen. All bruker info og poeng.
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                        ref.child(user.getUid()).setValue(profile);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -151,6 +156,9 @@ public class MainActivity extends AppCompatActivity {
             //Intent showMap = new Intent(this, CheckInActivity.class);
             //startActivity(showMap);
 
+            //Intent showProfile = new Intent(this, ProfileActivity.class);
+            //startActivity(showProfile);
+
             openNewActivity();
 
         } else {
@@ -158,7 +166,4 @@ public class MainActivity extends AppCompatActivity {
             btnSignOut.setVisibility(View.GONE);
         }
     }
-
-
-
 }

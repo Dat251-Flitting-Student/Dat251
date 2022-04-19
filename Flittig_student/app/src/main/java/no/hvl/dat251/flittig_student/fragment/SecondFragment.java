@@ -1,4 +1,4 @@
-package no.hvl.dat251.flittig_student;
+package no.hvl.dat251.flittig_student.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import no.hvl.dat251.flittig_student.R;
 import no.hvl.dat251.flittig_student.databinding.FragmentSecondBinding;
 
 public class SecondFragment extends Fragment {
