@@ -72,6 +72,12 @@ public class HomeActivity extends AppCompatActivity {
             time.setText("Hei");
             getCurrentLocation();
 
+/*
+            Intent intent = new Intent(this, CheckedInActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
+
+*/
         });
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -93,6 +99,9 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_scores:
+                    intent = new Intent(this, CheckedInActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                     return true;
 
             }

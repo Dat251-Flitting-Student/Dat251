@@ -1,15 +1,25 @@
 package no.hvl.dat251.flittig_student;
 
 import android.net.Uri;
+import android.provider.ContactsContract;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Random;
 
 public class UserInfo {
     /*
     All the user information for a logged in user.
      */
-
+    private static final String TAG = "UserInfo";
     public static String getUsername() {
         // Get the username
         FirebaseUser username = FirebaseAuth.getInstance().getCurrentUser();
@@ -39,4 +49,6 @@ public class UserInfo {
         FirebaseUser userPhoto = FirebaseAuth.getInstance().getCurrentUser();
         return userPhoto.getPhotoUrl();
     }
+
+
 }

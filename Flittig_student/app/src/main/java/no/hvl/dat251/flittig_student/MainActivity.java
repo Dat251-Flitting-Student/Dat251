@@ -59,9 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        signInButton.setOnClickListener(view -> {
-            signIn();
-        });
+        signInButton.setOnClickListener(view -> signIn());
 
         btnSignOut.setOnClickListener(view -> {
             mAuth.signOut();
@@ -109,7 +107,11 @@ public class MainActivity extends AppCompatActivity {
                         updateUI(user);
                         // Her skal ein få det til å legge inn i databasen. All bruker info og poeng.
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                        ref.child(user.getUid()).setValue(profile);
+                        if (user != null) {
+                            ref.child(user.getUid()).setValue(profile);
+                        } else {
+                            Log.w(TAG, "User is null", task.getException());
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());

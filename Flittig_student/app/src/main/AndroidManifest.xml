@@ -3,7 +3,6 @@
     package="no.hvl.dat251.flittig_student">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -16,19 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Flittig_student">
         <activity
+            android:name=".CheckedInActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
-        <!--android:theme="@style/noAnimTheme"-->
-
-
         <activity
-
             android:name=".HomeActivity"
-            android:exported="false"/>
-            <!--android:theme="@style/noAnimTheme"-->
-
-
-
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -43,9 +37,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDrdkhVWLNr-vsVAzc3_0kB5OBWsEDvOdU" />
-
-
-
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".MainActivity"
