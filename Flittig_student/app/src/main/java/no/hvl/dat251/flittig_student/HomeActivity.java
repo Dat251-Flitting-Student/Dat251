@@ -17,6 +17,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.snackbar.SnackbarContentLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -36,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView time;
 
     ActivityHomeBinding binding;
+    Snackbar errorPop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,8 @@ public class HomeActivity extends AppCompatActivity {
         setupLocClient();
 
         getCurrentLocation();
+
+        errorPop = Snackbar.make(binding.getRoot(), R.string.error_mesg, Snackbar.LENGTH_SHORT);
 
         checkInBtn = findViewById(R.id.checkInBtn);
         time = findViewById(R.id.time);
@@ -117,6 +122,7 @@ public class HomeActivity extends AppCompatActivity {
                         System.out.println("Du er på riktig sted!!");
                     else
                         System.out.println("Du er uten for området!!");
+                        errorPop.show();
 
                 }else {
                     Log.e(TAG, "No location found");
