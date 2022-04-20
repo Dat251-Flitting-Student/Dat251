@@ -1,19 +1,14 @@
 package no.hvl.dat251.flittig_student;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import android.view.MenuItem;
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
-import no.hvl.dat251.flittig_student.fragment.CalendarFragment;
-import no.hvl.dat251.flittig_student.fragment.ScoresFragment;
+
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -35,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent;
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
-                    replaceFragment(new CalendarFragment());
+                    //replaceFragment(new CalendarFragment());
                     return true;
 
                 case R.id.ic_home:
@@ -55,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_scores:
-                    replaceFragment(new ScoresFragment());
+                    //replaceFragment(new ScoresFragment());
                     return true;
 
             }

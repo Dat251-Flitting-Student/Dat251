@@ -20,14 +20,11 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import no.hvl.dat251.flittig_student.databinding.ActivityCheckInBinding;
-import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
-import no.hvl.dat251.flittig_student.fragment.CalendarFragment;
-import no.hvl.dat251.flittig_student.fragment.PrizeFragment;
+
 
 
 public class CheckInActivity extends AppCompatActivity {
