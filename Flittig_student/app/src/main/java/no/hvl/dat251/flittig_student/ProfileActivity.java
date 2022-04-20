@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import no.hvl.dat251.flittig_student.databinding.ActivityCheckInBinding;
 import no.hvl.dat251.flittig_student.databinding.ActivityProfileBinding;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -143,7 +142,6 @@ public class ProfileActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
-                    //replaceFragment(new CalendarFragment());
                     return true;
 
                 case R.id.ic_home:
@@ -153,17 +151,12 @@ public class ProfileActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_prize:
-                    intent = new Intent(this, CheckInActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
                     return true;
 
                 case R.id.ic_profile:
-
                     return true;
 
                 case R.id.ic_scores:
-                    //replaceFragment(new ScoresFragment());
                     return true;
 
             }
