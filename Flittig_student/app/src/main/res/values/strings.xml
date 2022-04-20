@@ -21,6 +21,7 @@
     <string name="app_logo">Flittig student logo</string>
 
     <string name="error_mesg">Du er ikke på skolen!</string>
+    <string name="test">En fin quote!</string>
 
 
 </resources>

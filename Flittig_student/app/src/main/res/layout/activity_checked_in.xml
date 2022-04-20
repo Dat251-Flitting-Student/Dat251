@@ -6,26 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".CheckedInActivity">
 
-
     <TextView
         android:id="@+id/quote"
-        android:layout_width="200dp"
+        android:layout_width="220dp"
         android:layout_height="300dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="356dp"
-        android:layout_marginEnd="177dp"
-        android:layout_marginBottom="356dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="109dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="80dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="30sp"
         android:background="@color/green5"
         android:fontFamily="@font/dancing_script"
-        android:gravity="center"
-        android:text="En fin quote!"
-        android:textAlignment="center"
-        android:textSize="24dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

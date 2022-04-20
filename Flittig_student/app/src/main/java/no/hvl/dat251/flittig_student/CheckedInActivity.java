@@ -74,8 +74,8 @@ public class CheckedInActivity extends AppCompatActivity {
                     System.out.println(quote);
                     if (quote != null) {
                         Log.d(TAG, "The chosen quote is: " + quote);
-                        //TextView quoteView = (TextView) findViewById(R.id.quote);
-                        //quoteView.setText(quote);
+                        TextView quoteView = (TextView) findViewById(R.id.quote);
+                        quoteView.setText(quote);
                     }
                 }
                 catch (NullPointerException ex){
