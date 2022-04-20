@@ -55,14 +55,14 @@ public class HomeActivity extends AppCompatActivity {
 
         setupLocClient();
 
-
+        //This is the error message if you are not at school:)
         errorPop = Snackbar.make(binding.getRoot(), R.string.error_mesg, Snackbar.LENGTH_SHORT);
         View view2 = errorPop.getView();
         FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view2.getLayoutParams();
         params.gravity = Gravity.TOP;
         view2.setLayoutParams(params);
-        errorPop.setBackgroundTint(getResources().getColor(R.color.green2));
-        errorPop.setTextColor(getResources().getColor(R.color.white));
+        errorPop.setBackgroundTint(getResources().getColor(R.color.green2))
+                .setTextColor(getResources().getColor(R.color.white));
 
         checkInBtn = findViewById(R.id.checkInBtn);
         time = findViewById(R.id.time);
@@ -78,14 +78,12 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent;
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
-                    //replaceFragment(new CalendarFragment());
                     return true;
 
                 case R.id.ic_home:
                     return true;
 
                 case R.id.ic_prize:
-                    //replaceFragment(new PrizeFragment());
                     return true;
 
                 case R.id.ic_profile:
@@ -95,7 +93,6 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_scores:
-                    //replaceFragment(new ScoresFragment());
                     return true;
 
             }
@@ -130,9 +127,10 @@ public class HomeActivity extends AppCompatActivity {
 
                     if(isInGrid(location))
                         System.out.println("Du er på riktig sted!!");
-                    else
+                    else {
                         System.out.println("Du er uten for området!!");
                         errorPop.show();
+                    }
 
                 }else {
                     Log.e(TAG, "No location found");
