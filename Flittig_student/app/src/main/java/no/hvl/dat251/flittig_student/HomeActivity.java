@@ -1,5 +1,6 @@
 package no.hvl.dat251.flittig_student;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -10,7 +11,10 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -51,9 +55,14 @@ public class HomeActivity extends AppCompatActivity {
 
         setupLocClient();
 
-        getCurrentLocation();
 
         errorPop = Snackbar.make(binding.getRoot(), R.string.error_mesg, Snackbar.LENGTH_SHORT);
+        View view2 = errorPop.getView();
+        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view2.getLayoutParams();
+        params.gravity = Gravity.TOP;
+        view2.setLayoutParams(params);
+        errorPop.setBackgroundTint(getResources().getColor(R.color.green2));
+        errorPop.setTextColor(getResources().getColor(R.color.white));
 
         checkInBtn = findViewById(R.id.checkInBtn);
         time = findViewById(R.id.time);
@@ -61,6 +70,7 @@ public class HomeActivity extends AppCompatActivity {
         checkInBtn.setOnClickListener(view -> {
 
             time.setText("Hei");
+            getCurrentLocation();
 
         });
 
