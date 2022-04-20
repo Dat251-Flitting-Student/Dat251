@@ -18,16 +18,12 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
+        <!--android:theme="@style/noAnimTheme"-->
+
+
         <activity
 
             android:name=".HomeActivity"
-            android:exported="false"/>
-            <!--android:theme="@style/noAnimTheme"-->
-
-
-        <activity
-
-            android:name=".CheckInActivity"
             android:exported="false"/>
             <!--android:theme="@style/noAnimTheme"-->
 
