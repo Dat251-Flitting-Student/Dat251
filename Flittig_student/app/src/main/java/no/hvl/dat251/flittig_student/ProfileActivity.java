@@ -174,13 +174,6 @@ public class ProfileActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
 
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        ColorDrawable colorDrawable
-                = new ColorDrawable(
-                Color.parseColor("#0F9D58"));
-        actionBar.setBackgroundDrawable(colorDrawable);
-
         // initialise views
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
@@ -189,6 +182,47 @@ public class ProfileActivity extends AppCompatActivity {
         // get the Firebase  storage reference
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
+
+        // display the username
+        TextView username = (TextView)findViewById(R.id.username);
+        username.setText("Navn: " + UserInfo.getUsername());
+
+        // display the school
+        TextView school = (TextView)findViewById(R.id.school);
+        school.setText("Skole: " + UserInfo.school());
+
+
+        // Get the points from the database, updated automatically.
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue().toString();
+                    if (value != null) {
+                        Log.d(TAG, "Value is: " + value);
+                        TextView points = (TextView) findViewById(R.id.points);
+                        points.setText("Poeng: " + value);
+                    }
+                }
+                catch (NullPointerException ex){
+                    //if the user does not have any points from before, set them to 0.
+                    setPoints(0);
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
         // on pressing btnSelect SelectImage() is called
         btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -370,45 +404,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
 
-        // display the username
-        TextView username = (TextView)findViewById(R.id.username);
-        username.setText("Navn: " + UserInfo.getUsername());
-
-        // display the school
-        TextView school = (TextView)findViewById(R.id.school);
-        school.setText("Skole: " + UserInfo.school());
 
 
-        // Get the points from the database, updated automatically.
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
-
-        // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                try {
-                    String value = dataSnapshot.getValue().toString();
-                    if (value != null) {
-                        Log.d(TAG, "Value is: " + value);
-                        TextView points = (TextView) findViewById(R.id.points);
-                        points.setText("Poeng: " + value);
-                    }
-                }
-                catch (NullPointerException ex){
-                    //if the user does not have any points from before, set them to 0.
-                    setPoints(0);
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
     }
 }
