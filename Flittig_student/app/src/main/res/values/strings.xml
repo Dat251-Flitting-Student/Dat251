@@ -20,5 +20,8 @@
     <string name="timerText">TextView</string>
     <string name="app_logo">Flittig student logo</string>
 
+    <string name="error_mesg">Du er ikke på skolen!</string>
+    <string name="sjekk_ut">Sjekk ut</string>
+
 
 </resources>

@@ -100,28 +100,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     //TODO: implement getPoints to not retrieve the value asynch.
 
-    /*
-    public void getPoints() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
-
-        myRef.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot task) {
-                        String value = task.getValue().toString();
-                        System.out.println("HALLO " + value);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                }
-        );
-    }
-     */
-
 
     //TODO: implement a method that keeps track of all the points they have earned in total.
     public int pointsInTotal() {
@@ -165,11 +143,11 @@ public class ProfileActivity extends AppCompatActivity {
         // TODO: add profile picture
 
         // display the username
-        TextView username = (TextView)findViewById(R.id.username);
+        TextView username = findViewById(R.id.username);
         username.setText("Navn: " + UserInfo.getUsername());
 
         // display the school
-        TextView school = (TextView)findViewById(R.id.school);
+        TextView school = findViewById(R.id.school);
         school.setText("Skole: " + UserInfo.school());
 
 

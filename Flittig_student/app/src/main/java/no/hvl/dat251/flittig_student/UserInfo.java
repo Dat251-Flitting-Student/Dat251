@@ -2,14 +2,15 @@ package no.hvl.dat251.flittig_student;
 
 import android.net.Uri;
 
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 
 public class UserInfo {
     /*
     All the user information for a logged in user.
      */
-
     public static String getUsername() {
         // Get the username
         FirebaseUser username = FirebaseAuth.getInstance().getCurrentUser();
@@ -18,8 +19,7 @@ public class UserInfo {
 
     public static String getUID() {
         // Get the users UID (unique identification number)
-        String uid = FirebaseAuth.getInstance().getUid();
-        return uid;
+        return FirebaseAuth.getInstance().getUid();
     }
 
     public static String email() {
@@ -39,4 +39,6 @@ public class UserInfo {
         FirebaseUser userPhoto = FirebaseAuth.getInstance().getCurrentUser();
         return userPhoto.getPhotoUrl();
     }
+
+
 }

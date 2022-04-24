@@ -10,15 +10,22 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
 
@@ -33,29 +40,45 @@ public class HomeActivity extends AppCompatActivity {
     private final String TAG = "MapActivity";
 
     protected Button checkInBtn;
-    private TextView time;
+    private TextView points;
 
     ActivityHomeBinding binding;
+    Snackbar errorPop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getStatus();
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getPoints();
 
         binding.bottomNavigationView.setSelectedItemId(R.id.ic_home);
 
+        getPoints();
+
+
+
         setupLocClient();
 
-        getCurrentLocation();
+        //This is the error message if you are not at school:)
+        errorPop = Snackbar.make(binding.getRoot(), R.string.error_mesg, Snackbar.LENGTH_SHORT);
+        View view2 = errorPop.getView();
+        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view2.getLayoutParams();
+        params.gravity = Gravity.TOP;
+        view2.setLayoutParams(params);
+        errorPop.setBackgroundTint(getResources().getColor(R.color.green2))
+                .setTextColor(getResources().getColor(R.color.white));
 
         checkInBtn = findViewById(R.id.checkInBtn);
-        time = findViewById(R.id.time);
+        points = findViewById(R.id.pointsNow);
+
+
 
         checkInBtn.setOnClickListener(view -> {
 
-            time.setText("Hei");
+            getCurrentLocation();
 
         });
 
@@ -63,14 +86,12 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent;
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
-                    //replaceFragment(new CalendarFragment());
                     return true;
 
                 case R.id.ic_home:
                     return true;
 
                 case R.id.ic_prize:
-                    //replaceFragment(new PrizeFragment());
                     return true;
 
                 case R.id.ic_profile:
@@ -80,15 +101,104 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_scores:
-                    //replaceFragment(new ScoresFragment());
                     return true;
 
             }
             return true;
         });
 
+
+
+
+
     }
 
+    private void checkInIntent() {
+        Intent intent2 = new Intent(this, CheckedInActivity.class);
+        intent2.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent2);
+    }
+
+    private void getStatus() {
+        // Get the points from the database, updated automatically.
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("checked in");
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    boolean value = (boolean) dataSnapshot.getValue();
+                    if (value) {
+                        Log.d(TAG, "Value is: " + value);
+
+                        checkInIntent();
+                    }
+                }
+                catch (NullPointerException ex){
+                    //if the user does not have any points from before, set them to 0.
+                    setPoints(0);
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private void getPoints() {
+        // Get the points from the database, updated automatically.
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue().toString();
+                    if (value != null) {
+                        Log.d(TAG, "Value is: " + value);
+                        points.setText(value);
+                    }
+                }
+                catch (NullPointerException ex){
+                    //if the user does not have any points from before, set them to 0.
+                    setPoints(0);
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private void setPoints(int value) {
+        /* Set the total points for the user. */
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("users").child(UserInfo.getUID()).child("points").child("total").setValue(value);
+    }
+
+    public void setStatus(Boolean checkedIn) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
+    }
 
     private void setupLocClient() {
         fusedLocClient = LocationServices.getFusedLocationProviderClient(this);
@@ -104,19 +214,24 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             fusedLocClient.getLastLocation().addOnSuccessListener(this, location -> {
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("test");
-
 
                 if(location != null) {
-                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-                    ref.setValue(location);
 
-                    if(isInGrid(location))
+
+                    if(isInGrid(location)) {
                         System.out.println("Du er på riktig sted!!");
-                    else
+                        setStatus(true);
+
+                        Intent intent = new Intent(this, CheckedInActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                    }
+                    else {
                         System.out.println("Du er uten for området!!");
+                        errorPop.show();
+                    }
 
                 }else {
                     Log.e(TAG, "No location found");
