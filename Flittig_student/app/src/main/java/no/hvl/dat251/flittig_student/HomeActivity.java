@@ -1,6 +1,5 @@
 package no.hvl.dat251.flittig_student;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -22,7 +21,6 @@ import com.google.android.gms.location.LocationServices;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.snackbar.SnackbarContentLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getStatus();
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -58,6 +57,8 @@ public class HomeActivity extends AppCompatActivity {
         binding.bottomNavigationView.setSelectedItemId(R.id.ic_home);
 
         getPoints();
+
+
 
         setupLocClient();
 
@@ -202,7 +203,7 @@ public class HomeActivity extends AppCompatActivity {
         myRef.child("users").child(UserInfo.getUID()).child("points").child("total").setValue(value);
     }
 
-    public void setCheckedIn(Boolean checkedIn) {
+    public void setStatus(Boolean checkedIn) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
         myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
@@ -230,7 +231,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     if(isInGrid(location)) {
                         System.out.println("Du er på riktig sted!!");
-                        setCheckedIn(true);
+                        setStatus(true);
 
                         Intent intent = new Intent(this, CheckedInActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
