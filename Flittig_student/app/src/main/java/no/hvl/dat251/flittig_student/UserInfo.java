@@ -57,6 +57,12 @@ public class UserInfo {
 
     }
 
+    public static void setStatus(Boolean checkedIn) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
+    }
+
     public int getPoints() {
         /* Get the current points from the user. */
         FirebaseDatabase database = FirebaseDatabase.getInstance();

@@ -26,8 +26,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference();
-
     private ActivityProfileBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /* This is what happens when this activity is activated. */
@@ -47,7 +47,11 @@ public class ProfileActivity extends AppCompatActivity {
         TextView school = findViewById(R.id.school);
         school.setText("Skole: " + UserInfo.school());
 
+        displayPoints();
 
+    }
+
+    private void displayPoints() {
         // Get the points from the database, updated automatically.
         myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
         // Read from the database

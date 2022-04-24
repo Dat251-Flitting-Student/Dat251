@@ -41,7 +41,7 @@ public class CheckedInActivity extends AppCompatActivity {
 
         btn_checkout.setOnClickListener(view -> {
 
-            setStatus(false);
+            UserInfo.setStatus(false);
 
             //TODO: timer and set points
 
@@ -51,10 +51,6 @@ public class CheckedInActivity extends AppCompatActivity {
 
         getQuotes();
 
-    }
-
-    public void setStatus(Boolean checkedIn) {
-        myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
     }
 
     private void getQuotes() {

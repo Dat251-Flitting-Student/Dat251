@@ -42,8 +42,8 @@ public class HomeActivity extends AppCompatActivity {
     protected Button checkInBtn;
     private TextView points;
 
-    ActivityHomeBinding binding;
-    Snackbar errorPop;
+    private ActivityHomeBinding binding;
+    private Snackbar errorPop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getStatus() {
-        // Get the points from the database, updated automatically.
+        // Get the status from the database, updated automatically.
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("checked in");
 
@@ -91,13 +91,10 @@ public class HomeActivity extends AppCompatActivity {
                     boolean value = (boolean) dataSnapshot.getValue();
                     if (value) {
                         Log.d(TAG, "Value is: " + value);
-
                         checkInIntent();
                     }
                 }
                 catch (NullPointerException ex){
-                    //if the user does not have any points from before, set them to 0.
-                    setPoints(0);
                     ex.printStackTrace();
                 }
             }
@@ -129,7 +126,7 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 catch (NullPointerException ex){
                     //if the user does not have any points from before, set them to 0.
-                    setPoints(0);
+                    UserInfo.setPoints(0);
                     ex.printStackTrace();
                 }
             }
@@ -142,19 +139,8 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void setPoints(int value) {
-        /* Set the total points for the user. */
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        myRef.child("users").child(UserInfo.getUID()).child("points").child("total").setValue(value);
-    }
 
-    public void setStatus(Boolean checkedIn) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
-    }
-
+    //-------------LOCATION----------------
     private void setupLocClient() {
         fusedLocClient = LocationServices.getFusedLocationProviderClient(this);
     }
@@ -173,7 +159,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     if(isInGrid(location)) {
                         System.out.println("Du er på riktig sted!!");
-                        setStatus(true);
+                        UserInfo.setStatus(true);
 
                         Intent intent = new Intent(this, CheckedInActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -226,6 +212,7 @@ public class HomeActivity extends AppCompatActivity {
         return results[0];
     }
 
+    //-------------MENU----------------
     private void menu() {
         binding.bottomNavigationView.setSelectedItemId(R.id.ic_home);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {

@@ -71,12 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setCheckedIn(Boolean checkedIn) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
-    }
-
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         signInResultLauncher.launch(signInIntent);
@@ -138,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
         //hideProgressDialog();
         if (user != null) {
             //signInButton.setVisibility(View.GONE);
-            setCheckedIn(false);
+            UserInfo.setStatus(false);
             openHomeActivity();
 
         } else {
