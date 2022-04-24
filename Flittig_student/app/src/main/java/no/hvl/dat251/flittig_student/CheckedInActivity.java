@@ -20,15 +20,19 @@ import no.hvl.dat251.flittig_student.databinding.ActivityCheckedInBinding;
 
 public class CheckedInActivity extends AppCompatActivity {
 
-    ActivityCheckedInBinding binding;
+    private ActivityCheckedInBinding binding;
     private static final String TAG = "CheckedInActivity";
-
-    Button btn_checkout;
+    private Button btn_checkout;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
 
         binding = ActivityCheckedInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -43,8 +47,47 @@ public class CheckedInActivity extends AppCompatActivity {
 
         });
 
-        System.out.println("RUN ON CREATE IN CHECKEDINACTIVITY" + binding.getRoot());
+        menu();
 
+        getQuotes();
+
+    }
+
+    public void setStatus(Boolean checkedIn) {
+        myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
+    }
+
+    private void getQuotes() {
+        Random r = new Random();
+        int int_random = r.nextInt(9);
+        myRef = database.getReference().child("Quotes").child(""+int_random);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String quote = dataSnapshot.getValue().toString();
+                    System.out.println(quote);
+                    Log.d(TAG, "The chosen quote is: " + quote);
+                    TextView quoteView = findViewById(R.id.quote);
+                    quoteView.setText(quote);
+                }
+                catch (NullPointerException ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read quote.", error.toException());
+            }
+        });
+    }
+
+    private void menu() {
         binding.bottomNavigationView.setSelectedItemId(R.id.ic_home);
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -70,46 +113,7 @@ public class CheckedInActivity extends AppCompatActivity {
 
             }
             return true;
-
-
         });
-
-        Random r = new Random();
-        int int_random = r.nextInt(9);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("Quotes").child(""+int_random);
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                try {
-                    String quote = dataSnapshot.getValue().toString();
-                    System.out.println(quote);
-                    Log.d(TAG, "The chosen quote is: " + quote);
-                    TextView quoteView = findViewById(R.id.quote);
-                    quoteView.setText(quote);
-                }
-                catch (NullPointerException ex){
-                    ex.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read quote.", error.toException());
-            }
-        });
-
-
-    }
-
-    public void setStatus(Boolean checkedIn) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
-        myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
     }
 
 

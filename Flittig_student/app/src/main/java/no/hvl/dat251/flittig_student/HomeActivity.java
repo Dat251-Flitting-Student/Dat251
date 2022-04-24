@@ -52,65 +52,22 @@ public class HomeActivity extends AppCompatActivity {
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        getPoints();
-
-        binding.bottomNavigationView.setSelectedItemId(R.id.ic_home);
 
         getPoints();
-
-
-
+        menu();
         setupLocClient();
 
         //This is the error message if you are not at school:)
-        errorPop = Snackbar.make(binding.getRoot(), R.string.error_mesg, Snackbar.LENGTH_SHORT);
-        View view2 = errorPop.getView();
-        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view2.getLayoutParams();
-        params.gravity = Gravity.TOP;
-        view2.setLayoutParams(params);
-        errorPop.setBackgroundTint(getResources().getColor(R.color.green2))
-                .setTextColor(getResources().getColor(R.color.white));
+        createErrorPop();
 
         checkInBtn = findViewById(R.id.checkInBtn);
         points = findViewById(R.id.pointsNow);
-
-
 
         checkInBtn.setOnClickListener(view -> {
 
             getCurrentLocation();
 
         });
-
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            Intent intent;
-            switch (item.getItemId()) {
-                case R.id.ic_calendar:
-                    return true;
-
-                case R.id.ic_home:
-                    return true;
-
-                case R.id.ic_prize:
-                    return true;
-
-                case R.id.ic_profile:
-                    intent = new Intent(this, ProfileActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent);
-                    return true;
-
-                case R.id.ic_scores:
-                    return true;
-
-            }
-            return true;
-        });
-
-
-
-
-
     }
 
     private void checkInIntent() {
@@ -167,10 +124,8 @@ public class HomeActivity extends AppCompatActivity {
                 // whenever data at this location is updated.
                 try {
                     String value = dataSnapshot.getValue().toString();
-                    if (value != null) {
-                        Log.d(TAG, "Value is: " + value);
-                        points.setText(value);
-                    }
+                    Log.d(TAG, "Value is: " + value);
+                    points.setText(value);
                 }
                 catch (NullPointerException ex){
                     //if the user does not have any points from before, set them to 0.
@@ -214,11 +169,7 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             fusedLocClient.getLastLocation().addOnSuccessListener(this, location -> {
 
-
                 if(location != null) {
-                    //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-
 
                     if(isInGrid(location)) {
                         System.out.println("Du er på riktig sted!!");
@@ -273,5 +224,43 @@ public class HomeActivity extends AppCompatActivity {
         Location.distanceBetween(latLngHVL.latitude, latLngHVL.longitude, userLoc.getLatitude(), userLoc.getLongitude(), results);
 
         return results[0];
+    }
+
+    private void menu() {
+        binding.bottomNavigationView.setSelectedItemId(R.id.ic_home);
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            Intent intent;
+            switch (item.getItemId()) {
+                case R.id.ic_calendar:
+                    return true;
+
+                case R.id.ic_home:
+                    return true;
+
+                case R.id.ic_prize:
+                    return true;
+
+                case R.id.ic_profile:
+                    intent = new Intent(this, ProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    return true;
+
+                case R.id.ic_scores:
+                    return true;
+
+            }
+            return true;
+        });
+    }
+
+    private void createErrorPop() {
+        errorPop = Snackbar.make(binding.getRoot(), R.string.error_mesg, Snackbar.LENGTH_SHORT);
+        View view2 = errorPop.getView();
+        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view2.getLayoutParams();
+        params.gravity = Gravity.TOP;
+        view2.setLayoutParams(params);
+        errorPop.setBackgroundTint(getResources().getColor(R.color.green2))
+                .setTextColor(getResources().getColor(R.color.white));
     }
 }
