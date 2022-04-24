@@ -23,8 +23,11 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.snackbar.SnackbarContentLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
 
@@ -39,7 +42,7 @@ public class HomeActivity extends AppCompatActivity {
     private final String TAG = "MapActivity";
 
     protected Button checkInBtn;
-    private TextView time;
+    private TextView points;
 
     ActivityHomeBinding binding;
     Snackbar errorPop;
@@ -50,8 +53,11 @@ public class HomeActivity extends AppCompatActivity {
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getPoints();
 
         binding.bottomNavigationView.setSelectedItemId(R.id.ic_home);
+
+        getPoints();
 
         setupLocClient();
 
@@ -65,20 +71,18 @@ public class HomeActivity extends AppCompatActivity {
                 .setTextColor(getResources().getColor(R.color.white));
 
         checkInBtn = findViewById(R.id.checkInBtn);
-        time = findViewById(R.id.time);
+        points = findViewById(R.id.pointsNow);
+
+
 
         checkInBtn.setOnClickListener(view -> {
 
-            time.setText("Hei");
             getCurrentLocation();
 
-/*
-            Intent intent = new Intent(this, CheckedInActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            startActivity(intent);
-
-*/
         });
+
+
+
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             Intent intent;
@@ -87,6 +91,7 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_home:
+
                     return true;
 
                 case R.id.ic_prize:
@@ -108,8 +113,100 @@ public class HomeActivity extends AppCompatActivity {
             return true;
         });
 
+
+
+
+
     }
 
+    private void checkInIntent() {
+        Intent intent2 = new Intent(this, CheckedInActivity.class);
+        intent2.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent2);
+    }
+
+    private void getStatus() {
+        // Get the points from the database, updated automatically.
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("checked in");
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    boolean value = (boolean) dataSnapshot.getValue();
+                    if (value) {
+                        Log.d(TAG, "Value is: " + value);
+
+                        checkInIntent();
+                    } else {
+
+                    }
+                }
+                catch (NullPointerException ex){
+                    //if the user does not have any points from before, set them to 0.
+                    setPoints(0);
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private void getPoints() {
+        // Get the points from the database, updated automatically.
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String value = dataSnapshot.getValue().toString();
+                    if (value != null) {
+                        Log.d(TAG, "Value is: " + value);
+                        points.setText(value);
+                    }
+                }
+                catch (NullPointerException ex){
+                    //if the user does not have any points from before, set them to 0.
+                    setPoints(0);
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private void setPoints(int value) {
+        /* Set the total points for the user. */
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("users").child(UserInfo.getUID()).child("points").child("total").setValue(value);
+    }
+
+    public void setCheckedIn(Boolean checkedIn) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
+    }
 
     private void setupLocClient() {
         fusedLocClient = LocationServices.getFusedLocationProviderClient(this);
@@ -125,17 +222,20 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             fusedLocClient.getLastLocation().addOnSuccessListener(this, location -> {
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference ref = database.getReference("test");
-
 
                 if(location != null) {
                     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-                    ref.setValue(location);
 
-                    if(isInGrid(location))
+
+                    if(isInGrid(location)) {
                         System.out.println("Du er på riktig sted!!");
+                        setCheckedIn(true);
+
+                        Intent intent = new Intent(this, CheckedInActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+                    }
                     else {
                         System.out.println("Du er uten for området!!");
                         errorPop.show();

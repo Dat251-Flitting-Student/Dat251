@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void openHomeActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
     }
 
@@ -61,13 +62,19 @@ public class MainActivity extends AppCompatActivity {
 
         signInButton.setOnClickListener(view -> signIn());
 
-        btnSignOut.setOnClickListener(view -> {
+        /*btnSignOut.setOnClickListener(view -> {
             mAuth.signOut();
             btnSignOut.setVisibility(View.GONE);
             signInButton.setVisibility(View.VISIBLE);
 
-        });
+        });*/
 
+    }
+
+    public void setCheckedIn(Boolean checkedIn) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference();
+        myRef.child("users").child(UserInfo.getUID()).child("checked in").setValue(checkedIn);
     }
 
     private void signIn() {
@@ -130,14 +137,12 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         //hideProgressDialog();
         if (user != null) {
-            signInButton.setVisibility(View.GONE);
-            btnSignOut.setVisibility(View.VISIBLE);
-
+            //signInButton.setVisibility(View.GONE);
+            setCheckedIn(false);
             openHomeActivity();
 
         } else {
-            signInButton.setVisibility(View.VISIBLE);
-            btnSignOut.setVisibility(View.GONE);
+            //signInButton.setVisibility(View.VISIBLE);
         }
     }
 }
