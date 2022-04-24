@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Button btnSignOut;
 
-    public void openHomeActivity(){
+    public void openNewActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         signInButton.setOnClickListener(view -> {
             signIn();
+            //btnSignOut.setVisibility(View.VISIBLE);
         });
 
         btnSignOut.setOnClickListener(view -> {
@@ -98,6 +99,27 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+    /**
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
+            }
+        }
+    }
+     */
+
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
@@ -131,7 +153,14 @@ public class MainActivity extends AppCompatActivity {
             signInButton.setVisibility(View.GONE);
             btnSignOut.setVisibility(View.VISIBLE);
 
-            openHomeActivity();
+            //Where to after sign in? 
+            //Intent showMap = new Intent(this, CheckInActivity.class);
+            //startActivity(showMap);
+
+            //Intent showProfile = new Intent(this, ProfileActivity.class);
+            //startActivity(showProfile);
+
+            openNewActivity();
 
         } else {
             signInButton.setVisibility(View.VISIBLE);

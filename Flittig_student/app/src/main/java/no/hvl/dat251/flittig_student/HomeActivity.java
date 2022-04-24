@@ -1,6 +1,5 @@
 package no.hvl.dat251.flittig_student;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -11,18 +10,13 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.snackbar.SnackbarContentLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,7 +36,6 @@ public class HomeActivity extends AppCompatActivity {
     private TextView time;
 
     ActivityHomeBinding binding;
-    Snackbar errorPop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +48,7 @@ public class HomeActivity extends AppCompatActivity {
 
         setupLocClient();
 
-        //This is the error message if you are not at school:)
-        errorPop = Snackbar.make(binding.getRoot(), R.string.error_mesg, Snackbar.LENGTH_SHORT);
-        View view2 = errorPop.getView();
-        FrameLayout.LayoutParams params =(FrameLayout.LayoutParams)view2.getLayoutParams();
-        params.gravity = Gravity.TOP;
-        view2.setLayoutParams(params);
-        errorPop.setBackgroundTint(getResources().getColor(R.color.green2))
-                .setTextColor(getResources().getColor(R.color.white));
+        getCurrentLocation();
 
         checkInBtn = findViewById(R.id.checkInBtn);
         time = findViewById(R.id.time);
@@ -70,7 +56,6 @@ public class HomeActivity extends AppCompatActivity {
         checkInBtn.setOnClickListener(view -> {
 
             time.setText("Hei");
-            getCurrentLocation();
 
         });
 
@@ -78,12 +63,14 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent;
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
+                    //replaceFragment(new CalendarFragment());
                     return true;
 
                 case R.id.ic_home:
                     return true;
 
                 case R.id.ic_prize:
+                    //replaceFragment(new PrizeFragment());
                     return true;
 
                 case R.id.ic_profile:
@@ -93,6 +80,7 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_scores:
+                    //replaceFragment(new ScoresFragment());
                     return true;
 
             }
@@ -127,10 +115,8 @@ public class HomeActivity extends AppCompatActivity {
 
                     if(isInGrid(location))
                         System.out.println("Du er på riktig sted!!");
-                    else {
+                    else
                         System.out.println("Du er uten for området!!");
-                        errorPop.show();
-                    }
 
                 }else {
                     Log.e(TAG, "No location found");
