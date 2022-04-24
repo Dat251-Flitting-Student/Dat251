@@ -139,8 +139,6 @@ public class HomeActivity extends AppCompatActivity {
                         Log.d(TAG, "Value is: " + value);
 
                         checkInIntent();
-                    } else {
-
                     }
                 }
                 catch (NullPointerException ex){
@@ -221,7 +219,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
                 if(location != null) {
-                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    //LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
 
 
