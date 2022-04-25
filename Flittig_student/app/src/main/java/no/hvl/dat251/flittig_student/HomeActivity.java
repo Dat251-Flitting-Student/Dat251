@@ -33,6 +33,7 @@ import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
 
+    public static boolean atSchool = false;
     //use it to request location updates and get the latest location
     private FusedLocationProviderClient fusedLocClient;
 
@@ -44,6 +45,9 @@ public class HomeActivity extends AppCompatActivity {
 
     private ActivityHomeBinding binding;
     private Snackbar errorPop;
+
+    // Boolean needed to start chronometer
+//    public boolean atSchool = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +163,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     if(isInGrid(location)) {
                         System.out.println("Du er på riktig sted!!");
+                        atSchool = true;
                         UserInfo.setStatus(true);
 
                         Intent intent = new Intent(this, CheckedInActivity.class);
