@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Button btnSignOut;
 
-    public void openNewActivity(){
+    public void openHomeActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
     }
 
@@ -59,17 +60,14 @@ public class MainActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        signInButton.setOnClickListener(view -> {
-            signIn();
-            //btnSignOut.setVisibility(View.VISIBLE);
-        });
+        signInButton.setOnClickListener(view -> signIn());
 
-        btnSignOut.setOnClickListener(view -> {
+        /*btnSignOut.setOnClickListener(view -> {
             mAuth.signOut();
             btnSignOut.setVisibility(View.GONE);
             signInButton.setVisibility(View.VISIBLE);
 
-        });
+        });*/
 
     }
 
@@ -99,27 +97,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-    /**
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
-            }
-        }
-    }
-     */
-
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
@@ -131,7 +108,11 @@ public class MainActivity extends AppCompatActivity {
                         updateUI(user);
                         // Her skal ein få det til å legge inn i databasen. All bruker info og poeng.
                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                        ref.child(user.getUid()).setValue(profile);
+                        if (user != null) {
+                            ref.child(user.getUid()).setValue(profile);
+                        } else {
+                            Log.w(TAG, "User is null", task.getException());
+                        }
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -150,21 +131,12 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         //hideProgressDialog();
         if (user != null) {
-            signInButton.setVisibility(View.GONE);
-            btnSignOut.setVisibility(View.VISIBLE);
-
-            //Where to after sign in? 
-            //Intent showMap = new Intent(this, CheckInActivity.class);
-            //startActivity(showMap);
-
-            //Intent showProfile = new Intent(this, ProfileActivity.class);
-            //startActivity(showProfile);
-
-            openNewActivity();
+            //signInButton.setVisibility(View.GONE);
+            UserInfo.setStatus(false);
+            openHomeActivity();
 
         } else {
-            signInButton.setVisibility(View.VISIBLE);
-            btnSignOut.setVisibility(View.GONE);
+            //signInButton.setVisibility(View.VISIBLE);
         }
     }
 }
