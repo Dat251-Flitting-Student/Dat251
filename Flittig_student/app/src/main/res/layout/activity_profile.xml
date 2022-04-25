@@ -12,8 +12,8 @@
         android:src="@drawable/ic_profilepic"
         android:scaleType="fitCenter"
         android:layout_gravity="center_horizontal"
-        android:layout_height="150dp"
-        android:layout_width="150dp"
+        android:layout_height="130dp"
+        android:layout_width="180dp"
         app:layout_constraintBottom_toTopOf="@+id/btnChoose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,7 +70,7 @@
 
         <TextView
             android:id="@+id/username"
-            android:layout_width="wrap_content"
+            android:layout_width="309dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:ems="10"
@@ -118,7 +118,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="120dp"
         android:text="Logg ut"
-        app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationView"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
