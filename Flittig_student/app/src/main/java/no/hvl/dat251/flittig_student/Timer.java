@@ -11,12 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Timer extends AppCompatActivity {
 
     private Chronometer chronometer;
-    private long PauseOffset = 0;
+//    private long PauseOffset = 0;
     private boolean isPlaying = false;
-    private boolean checkinAccept = false;
-    private ToggleButton toggleButton;
-    private Button reset_btn;
-    private boolean atSchool;
+//    private boolean checkinAccept = false;
+//    private ToggleButton toggleButton;
+//    private Button reset_btn;
+//    private boolean atSchool;
     private boolean tempBool = true;
 
     @Override
@@ -25,7 +25,6 @@ public class Timer extends AppCompatActivity {
 
         setContentView(R.layout.activity_checked_in);
         chronometer = findViewById(R.id.chronometer);
-//        toggleButton = findViewById(R.id.toggleButton);
         if (HomeActivity.atSchool) {
             chronometer.setBase(SystemClock.elapsedRealtime());
             chronometer.start();
