@@ -1,45 +1,30 @@
 package no.hvl.dat251.flittig_student;
 
-import androidx.annotation.NonNull;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
 import android.net.Uri;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.Bitmap;
-import android.content.Intent;
 import android.widget.Toast;
-import android.app.ProgressDialog;
 
-
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
-import java.util.UUID;
-
-import no.hvl.dat251.flittig_student.databinding.ActivityCheckInBinding;
 import no.hvl.dat251.flittig_student.databinding.ActivityProfileBinding;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -55,14 +40,13 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference myRef = database.getReference();
     private ActivityProfileBinding binding;
 
-    //Profile pic
-    Button btnUpload, btnSelect;
-    ImageView imageView;
-    //Indicates where the image will be picked from
-    Uri filePath;
-    final int PICK_IMAGE_REQUEST = 0;
-    FirebaseStorage storage;
-    StorageReference storageRef;
+    //Profile picture
+    private Button btnUpload, btnSelect;
+    private ImageView imageView;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private Uri fileURI;
 
     //TODO: implement getPoints to not retrieve the value asynch.
 
@@ -82,10 +66,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         menu();
 
-        // TODO: add profile picture
-        //setContentView(R.layout.activity_main);
-
-
         // initialise views
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
@@ -104,6 +84,20 @@ public class ProfileActivity extends AppCompatActivity {
         school.setText("Skole: " + UserInfo.school());
 
         displayPoints();
+
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            //what happens when activtyResultLauncher is launched
+            if(result.getResultCode() == RESULT_OK && result.getData() != null) {
+                fileURI = result.getData().getData();
+                imageView.setImageURI(fileURI);
+            }
+        });
+
+        // on pressing btnSelect SelectImage() is called
+        btnSelect.setOnClickListener(view -> selectImage());
+
+        // on pressing btnUpload uploadImage() is called
+        btnUpload.setOnClickListener(view -> uploadPicture());
 
     }
 
@@ -136,159 +130,52 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        // on pressing btnSelect SelectImage() is called
-        btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SelectImage();
-            }
+    }
 
+
+    //-------PROFILE PICTURE---------
+
+    // Select Image method
+    private void selectImage()
+    {
+        // Defining Implicit Intent to mobile gallery
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+
+        activityResultLauncher.launch(intent);
+    }
+
+    private void uploadPicture() {
+        // Code for showing progressDialog while uploading
+        ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Uploading...");
+        progressDialog.show();
+
+        // Defining the child of storageReference
+        StorageReference imageRef = storageRef.child("images/"
+                                + UserInfo.getUID());
+
+        UploadTask uploadTask = imageRef.putFile(fileURI);
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(exception -> {
+            // Handle unsuccessful uploads
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Failed to upload image:(", Toast.LENGTH_LONG).show();
+        }).addOnSuccessListener(taskSnapshot -> {
+            progressDialog.dismiss();
+            Snackbar.make(binding.getRoot(), "Image Uploaded!", Snackbar.LENGTH_LONG).show();
+
+        }).addOnProgressListener(snapshot -> {
+            //TODO: fix progressbar
+            //double p = (100.0 * snapshot.getTask().getResult().getBytesTransferred()/snapshot.getTotalByteCount());
+            progressDialog.setMessage("Uploaded " + 80+ "%");
         });
 
-        // on pressing btnUpload uploadImage() is called
-        btnUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uploadImage();
-            }
-        });
-
-
-        // TODO: add profile picture
     }
-        // Select Image method
-        private void SelectImage()
-        {
-            // Defining Implicit Intent to mobile gallery
-            Intent intent = new Intent();
-            intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(
-                    Intent.createChooser(
-                            intent,
-                            "Velg bilde fra galleri..."),
-                    PICK_IMAGE_REQUEST);
-        }
 
-
-        // Override onActivityResult method
-        protected void onActivityResult(int requestCode,
-                    int resultCode,
-                    Intent data) {
-
-            super.onActivityResult(requestCode,
-                    resultCode,
-                    data);
-
-
-            // checking request code and result code
-            // if request code is PICK_IMAGE_REQUEST and
-            // resultCode is RESULT_OK
-            // then set image in the image view
-            if (requestCode == PICK_IMAGE_REQUEST
-                    && resultCode == RESULT_OK
-                    && data != null
-                    && data.getData() != null) {
-
-                // Get the Uri of data
-                filePath = data.getData();
-                try {
-
-                    // Setting image on image view using Bitmap
-                    Bitmap bitmap = MediaStore
-                            .Images
-                            .Media
-                            .getBitmap(
-                                    getContentResolver(),
-                                    filePath);
-                    imageView.setImageBitmap(bitmap);
-                }
-
-                catch (IOException e) {
-                    // Log the exception
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        // UploadImage method
-        private void uploadImage()
-        {
-            if (filePath != null) {
-
-                // Code for showing progressDialog while uploading
-                ProgressDialog progressDialog
-                        = new ProgressDialog(this);
-                progressDialog.setTitle("Uploading...");
-                progressDialog.show();
-
-                // Defining the child of storageReference
-                StorageReference ref
-                        = storageRef
-                        .child(
-                                "images/"
-                                        + UUID.randomUUID().toString());
-
-                // adding listeners on upload
-                // or failure of image
-                ref.putFile(filePath)
-                        .addOnSuccessListener(
-                                new OnSuccessListener<UploadTask.TaskSnapshot>() {
-
-                                    @Override
-                                    public void onSuccess(
-                                            UploadTask.TaskSnapshot taskSnapshot)
-                                    {
-
-                                        // Image uploaded successfully
-                                        // Dismiss dialog
-                                        progressDialog.dismiss();
-                                        Toast
-                                                .makeText(ProfileActivity.this,
-                                                        "Image Uploaded!!",
-                                                        Toast.LENGTH_SHORT)
-                                                .show();
-                                    }
-                                })
-
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e)
-                            {
-
-                                // Error, Image not uploaded
-                                progressDialog.dismiss();
-                                Toast
-                                        .makeText(ProfileActivity.this,
-                                                "Failed " + e.getMessage(),
-                                                Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .addOnProgressListener(
-                                new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                                    // Progress Listener for loading
-                                    // percentage on the dialog box
-                                    @Override
-                                    public void onProgress(
-                                            UploadTask.TaskSnapshot taskSnapshot)
-                                    {
-                                        double progress
-                                                = (100.0
-                                                * taskSnapshot.getBytesTransferred()
-                                                / taskSnapshot.getTotalByteCount());
-                                        progressDialog.setMessage(
-                                                "Uploaded "
-                                                        + (int)progress + "%");
-                                    }
-                                });
-            }
-
-
-
-
-    }
+    //----------MENU-----------
 
     private void menu() {
         binding.bottomNavigationView.setSelectedItemId(R.id.ic_profile);
