@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -15,6 +17,8 @@ import android.widget.Button;
 import android.net.Uri;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,8 +47,9 @@ public class ProfileActivity extends AppCompatActivity {
     //Profile picture
     private Button btnUpload, btnSelect;
     private ImageView imageView;
-    private FirebaseStorage storage;
-    private StorageReference storageRef;
+    // get the Firebase  storage reference
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private Uri fileURI;
 
@@ -71,9 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnUpload = findViewById(R.id.btnUpload);
         imageView = findViewById(R.id.profile_picture);
 
-        // get the Firebase  storage reference
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
+        getProfilePicIfExists();
 
         // display the username
         TextView username = findViewById(R.id.username);
@@ -99,6 +102,17 @@ public class ProfileActivity extends AppCompatActivity {
         // on pressing btnUpload uploadImage() is called
         btnUpload.setOnClickListener(view -> uploadPicture());
 
+    }
+
+    private void getProfilePicIfExists() {
+        storageRef.child("images/"
+                + UserInfo.getUID()).getBytes(Long.MAX_VALUE).addOnSuccessListener(bytes -> {
+                    // Use the bytes to display the image
+                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    imageView.setImageBitmap(Bitmap.createBitmap(bmp));
+                }).addOnFailureListener(exception -> {
+                    // Handle any errors
+                });
     }
 
     private void displayPoints() {
