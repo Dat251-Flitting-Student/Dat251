@@ -47,9 +47,6 @@ public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
     private Snackbar errorPop;
 
-    // Boolean needed to start chronometer
-//    public boolean atSchool = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

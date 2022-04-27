@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
         signInButton.setOnClickListener(view -> signIn());
 
-
-
     }
 
     private void signIn() {

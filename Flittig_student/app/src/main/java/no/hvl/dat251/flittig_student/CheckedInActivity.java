@@ -32,7 +32,6 @@ public class CheckedInActivity extends AppCompatActivity {
     public static boolean running;
     public static int pauseValue = 0;
     public static long mTicks = 0;
-//    private int points = -1;
     private TextView points;
 
     @Override
@@ -50,7 +49,6 @@ public class CheckedInActivity extends AppCompatActivity {
         Log.d(TAG, "Points: " + points);
 
         // Stoppeklokke
-        Log.d(TAG, "Running test 11111: " + running);
         if (!running) {
             pauseValue = 0;
             chronometer = findViewById(R.id.stoppeklokke);
@@ -58,10 +56,8 @@ public class CheckedInActivity extends AppCompatActivity {
                 chronometer.setBase(SystemClock.elapsedRealtime());
                 chronometer.start();
                 running = true;
-                // Can uncomment when the incrementPoints are ready
                 UserInfo.incrementPoints();
                 Log.d(TAG, "Point added");
-                Log.d(TAG, "Points: " + points);
                 chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                     public void onChronometerTick(Chronometer chronometer) {
 //                        if ((mTicks % 60 * 30) == 0) {
@@ -70,7 +66,6 @@ public class CheckedInActivity extends AppCompatActivity {
                                 UserInfo.incrementPoints();
                             }
                             Log.d(TAG, "Point added");
-                            Log.d(TAG, "Points: " + points);
                         }
                         mTicks++;
                     }
@@ -84,8 +79,9 @@ public class CheckedInActivity extends AppCompatActivity {
             chronometer.start();
             chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                 public void onChronometerTick(Chronometer chronometer) {
-//                        if ((mTicks % 60 * 30) == 0) {
-                    if ((mTicks % 10) == 0) {
+                        if ((mTicks % 60 * 30) == 0) {
+                            // comment for test in 10 sec
+//                    if ((mTicks % 10) == 0) {
                         if (HomeActivity.atSchool) {
                             UserInfo.incrementPoints();
                         }
@@ -154,7 +150,7 @@ public class CheckedInActivity extends AppCompatActivity {
                 try {
                     String value = dataSnapshot.getValue().toString();
                     if (value != null) {
-                        Log.d(TAG, "Value issssssssss: " + value);
+                        Log.d(TAG, "Value is: " + value);
                         TextView points = (TextView) findViewById(R.id.points2);
                         points.setText("Poeng: " + value);
                     }
