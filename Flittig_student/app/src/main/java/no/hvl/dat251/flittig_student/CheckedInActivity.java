@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +28,11 @@ public class CheckedInActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
 
+    public static Chronometer chronometer;
+    public static boolean running;
+    public static int pauseValue = 0;
+    public static long mTicks = 0;
+    private TextView points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +46,67 @@ public class CheckedInActivity extends AppCompatActivity {
 
         btn_checkout = findViewById(R.id.btn_check_out);
 
+        Log.d(TAG, "Points: " + points);
+
+        // Stoppeklokke
+        if (!running) {
+            pauseValue = 0;
+            chronometer = findViewById(R.id.stoppeklokke);
+            if (HomeActivity.atSchool) {
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
+                running = true;
+                UserInfo.incrementPoints();
+                Log.d(TAG, "Point added");
+                chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                    public void onChronometerTick(Chronometer chronometer) {
+//                        if ((mTicks % 60 * 30) == 0) {
+                        if ((mTicks % 10) == 0) {
+                            if (HomeActivity.atSchool) {
+                                UserInfo.incrementPoints();
+                            }
+                            Log.d(TAG, "Point added");
+                        }
+                        mTicks++;
+                    }
+                });
+                Log.d(TAG, "Running test 2222222: " + running);
+            }
+        }
+        else {
+            chronometer = findViewById(R.id.stoppeklokke);
+            chronometer.setBase(SystemClock.elapsedRealtime() + pauseValue);
+            chronometer.start();
+            chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                public void onChronometerTick(Chronometer chronometer) {
+                        if ((mTicks % 60 * 30) == 0) {
+                            // comment for test in 10 sec
+//                    if ((mTicks % 10) == 0) {
+                        if (HomeActivity.atSchool) {
+                            UserInfo.incrementPoints();
+                        }
+                        Log.d(TAG, "Point added");
+                        Log.d(TAG, "Points: " + points);
+                    }
+                    mTicks++;
+                }
+            });
+        }
+
         btn_checkout.setOnClickListener(view -> {
-
             UserInfo.setStatus(false);
-
             //TODO: timer and set points
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            chronometer.stop();
+            running = false;
 
         });
 
         menu();
 
         getQuotes();
+
+        displayPoints();
 
     }
 
@@ -83,6 +140,35 @@ public class CheckedInActivity extends AppCompatActivity {
         });
     }
 
+    private void displayPoints() {
+        // Get the points from the database, updated automatically.
+        myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    String value = dataSnapshot.getValue().toString();
+                    if (value != null) {
+                        Log.d(TAG, "Value is: " + value);
+                        TextView points = (TextView) findViewById(R.id.points2);
+                        points.setText("Poeng: " + value);
+                    }
+                } catch (NullPointerException ex) {
+                    //if the user does not have any points from before, set them to 0.
+                    UserInfo.setPoints(0);
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
     private void menu() {
         binding.bottomNavigationView.setSelectedItemId(R.id.ic_home);
 
@@ -90,27 +176,30 @@ public class CheckedInActivity extends AppCompatActivity {
             Intent intent;
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_home:
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_prize:
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_profile:
                     intent = new Intent(this, ProfileActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_scores:
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
             }
             return true;
         });
     }
-
-
 }

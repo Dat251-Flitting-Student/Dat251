@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
@@ -49,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
     //Profile picture
     private Button btnUpload, btnSelect;
     private ImageView imageView;
-    // get the Firebase  storage reference
+//     get the Firebase  storage reference
     private FirebaseStorage storage = FirebaseStorage.getInstance();
     private StorageReference storageRef = storage.getReference();
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -90,6 +92,21 @@ public class ProfileActivity extends AppCompatActivity {
 
         displayPoints();
 
+        if (CheckedInActivity.running) {
+            CheckedInActivity.chronometer.setBase(SystemClock.elapsedRealtime() + CheckedInActivity.pauseValue);
+            CheckedInActivity.chronometer.start();
+            CheckedInActivity.chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                public void onChronometerTick(Chronometer chronometer) {
+                    if ((CheckedInActivity.mTicks % 60 * 30) == 0) {
+                        // comment for test in 10 sec
+//                    if ((CheckedInActivity.mTicks % 10) == 0) {
+                        UserInfo.incrementPoints();
+                    }
+                    CheckedInActivity.mTicks++;
+                }
+            });
+        }
+
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             //what happens when activtyResultLauncher is launched
             if(result.getResultCode() == RESULT_OK && result.getData() != null) {
@@ -111,6 +128,9 @@ public class ProfileActivity extends AppCompatActivity {
             Intent nIntent = new Intent(this, MainActivity.class);
             nIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(nIntent);
+            CheckedInActivity.chronometer.setBase(SystemClock.elapsedRealtime());
+            CheckedInActivity.chronometer.stop();
+            CheckedInActivity.running = false;
         });
 
     }
@@ -208,21 +228,26 @@ public class ProfileActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_home:
                     Intent intent = new Intent(this, HomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_prize:
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_profile:
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_scores:
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
             }
