@@ -49,6 +49,9 @@
         <entry key="..\:/Users/solma/AndroidStudioProjects/Dat251/Flittig_student/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2265" />
         <entry key="..\:/Users/solma/AndroidStudioProjects/Dat251/Flittig_student/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2265" />
         <entry key="..\:/Users/solma/AndroidStudioProjects/Dat251/Flittig_student/app/src/main/res/layout/activity_maps.xml" value="0.22826086956521738" />
+        <entry key="app/src/main/res/layout/activity_checked_in.xml" value="0.16259057971014493" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.10208333333333333" />
+        <entry key="app/src/main/res/layout/activity_timer_test.xml" value="0.10208333333333333" />
       </map>
     </option>
   </component>

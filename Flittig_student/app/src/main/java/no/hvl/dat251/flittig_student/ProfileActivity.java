@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -49,6 +51,23 @@ public class ProfileActivity extends AppCompatActivity {
 
         displayPoints();
 
+        if (CheckedInActivity.running) {
+            CheckedInActivity.chronometer.setBase(SystemClock.elapsedRealtime() + CheckedInActivity.pauseValue);
+            CheckedInActivity.chronometer.start();
+            CheckedInActivity.chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                public void onChronometerTick(Chronometer chronometer) {
+                    if ((CheckedInActivity.mTicks % 60 * 30) == 0) {
+//                        if ((CheckedInActivity.mTicks % 10) == 0) {
+//                            ProfileActivity.incrementPoints();
+                        Log.d(TAG, "Point added");
+                        Log.d(TAG, "Points: " + CheckedInActivity.points);
+                    }
+                    CheckedInActivity.mTicks++;
+                    CheckedInActivity.points++;
+                }
+            });
+        }
+
     }
 
     private void displayPoints() {
@@ -87,21 +106,26 @@ public class ProfileActivity extends AppCompatActivity {
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_home:
                     Intent intent = new Intent(this, HomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_prize:
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_profile:
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_scores:
+                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
             }

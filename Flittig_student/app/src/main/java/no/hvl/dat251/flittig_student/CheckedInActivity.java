@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +28,12 @@ public class CheckedInActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
 
+    public static Chronometer chronometer;
+    public static boolean running;
+    public static int pauseValue = 0;
+    public static long mTicks = 0;
+    public static int points = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +47,46 @@ public class CheckedInActivity extends AppCompatActivity {
 
         btn_checkout = findViewById(R.id.btn_check_out);
 
+        Log.d(TAG, "Points: " + points);
+
+        // Stoppeklokke
+        Log.d(TAG, "Running test 11111: " + running);
+        if (!running) {
+            chronometer = findViewById(R.id.stoppeklokke);
+            if (HomeActivity.atSchool) {
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
+                running = true;
+                // Can uncomment when the incrementPoints are ready
+//                ProfileActivity.incrementPoints();
+                Log.d(TAG, "Point added");
+                Log.d(TAG, "Points: " + points);
+                chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                    public void onChronometerTick(Chronometer chronometer) {
+                        if ((mTicks % 60 * 30) == 0) {
+//                        if ((mTicks % 10) == 0) {
+//                            ProfileActivity.incrementPoints();
+                            Log.d(TAG, "Point added");
+                            Log.d(TAG, "Points: " + points);
+                        }
+                        mTicks++;
+                        points ++;
+                    }
+                });
+                Log.d(TAG, "Running test 2222222: " + running);
+            }
+        }
+        else {
+            chronometer = findViewById(R.id.stoppeklokke);
+            chronometer.setBase(SystemClock.elapsedRealtime() + pauseValue);
+            chronometer.start();
+        }
+
         btn_checkout.setOnClickListener(view -> {
-
             UserInfo.setStatus(false);
-
             //TODO: timer and set points
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            chronometer.stop();
 
         });
 
@@ -90,27 +133,31 @@ public class CheckedInActivity extends AppCompatActivity {
             Intent intent;
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_home:
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_prize:
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_profile:
                     intent = new Intent(this, ProfileActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_scores:
+                    pauseValue = (int) (chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
             }
             return true;
         });
     }
-
 
 }
