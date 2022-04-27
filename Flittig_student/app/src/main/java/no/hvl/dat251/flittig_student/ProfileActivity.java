@@ -97,8 +97,8 @@ public class ProfileActivity extends AppCompatActivity {
             CheckedInActivity.chronometer.start();
             CheckedInActivity.chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                 public void onChronometerTick(Chronometer chronometer) {
-                    if ((CheckedInActivity.mTicks % 60 * 30) == 0) {
-//                    if ((CheckedInActivity.mTicks % 10) == 0) {
+//                    if ((CheckedInActivity.mTicks % 60 * 30) == 0) {
+                    if ((CheckedInActivity.mTicks % 10) == 0) {
                         UserInfo.incrementPoints();
                         Log.d(TAG, "Point added");
 //                        Log.d(TAG, "Points: " + CheckedInActivity.points);
