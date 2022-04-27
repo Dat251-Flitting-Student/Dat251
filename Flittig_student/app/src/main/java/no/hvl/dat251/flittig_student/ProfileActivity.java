@@ -101,10 +101,10 @@ public class ProfileActivity extends AppCompatActivity {
 //                    if ((CheckedInActivity.mTicks % 10) == 0) {
                         UserInfo.incrementPoints();
                         Log.d(TAG, "Point added");
-                        Log.d(TAG, "Points: " + CheckedInActivity.points);
+//                        Log.d(TAG, "Points: " + CheckedInActivity.points);
                     }
                     CheckedInActivity.mTicks++;
-                    CheckedInActivity.points++;
+//                    points++;
                 }
             });
         }
@@ -130,6 +130,9 @@ public class ProfileActivity extends AppCompatActivity {
             Intent nIntent = new Intent(this, MainActivity.class);
             nIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             startActivity(nIntent);
+            CheckedInActivity.chronometer.setBase(SystemClock.elapsedRealtime());
+            CheckedInActivity.chronometer.stop();
+            CheckedInActivity.running = false;
         });
 
     }

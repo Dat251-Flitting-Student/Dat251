@@ -171,6 +171,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else {
+                        atSchool = false;
                         System.out.println("Du er uten for området!!");
                         errorPop.show();
                     }

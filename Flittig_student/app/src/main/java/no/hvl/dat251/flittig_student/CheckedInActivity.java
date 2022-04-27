@@ -32,8 +32,8 @@ public class CheckedInActivity extends AppCompatActivity {
     public static boolean running;
     public static int pauseValue = 0;
     public static long mTicks = 0;
-    public static int points = 0;
-
+//    private int points = -1;
+    private TextView points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +52,7 @@ public class CheckedInActivity extends AppCompatActivity {
         // Stoppeklokke
         Log.d(TAG, "Running test 11111: " + running);
         if (!running) {
+            pauseValue = 0;
             chronometer = findViewById(R.id.stoppeklokke);
             if (HomeActivity.atSchool) {
                 chronometer.setBase(SystemClock.elapsedRealtime());
@@ -63,14 +64,15 @@ public class CheckedInActivity extends AppCompatActivity {
                 Log.d(TAG, "Points: " + points);
                 chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                     public void onChronometerTick(Chronometer chronometer) {
-                        if ((mTicks % 60 * 30) == 0) {
-//                        if ((mTicks % 10) == 0) {
-                            UserInfo.incrementPoints();
+//                        if ((mTicks % 60 * 30) == 0) {
+                        if ((mTicks % 10) == 0) {
+                            if (HomeActivity.atSchool) {
+                                UserInfo.incrementPoints();
+                            }
                             Log.d(TAG, "Point added");
                             Log.d(TAG, "Points: " + points);
                         }
                         mTicks++;
-                        points ++;
                     }
                 });
                 Log.d(TAG, "Running test 2222222: " + running);
@@ -87,12 +89,15 @@ public class CheckedInActivity extends AppCompatActivity {
             //TODO: timer and set points
             chronometer.setBase(SystemClock.elapsedRealtime());
             chronometer.stop();
+            running = false;
 
         });
 
         menu();
 
         getQuotes();
+
+        displayPoints();
 
     }
 
@@ -122,6 +127,35 @@ public class CheckedInActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
                 Log.w(TAG, "Failed to read quote.", error.toException());
+            }
+        });
+    }
+
+    private void displayPoints() {
+        // Get the points from the database, updated automatically.
+        myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                try {
+                    String value = dataSnapshot.getValue().toString();
+                    if (value != null) {
+                        Log.d(TAG, "Value issssssssss: " + value);
+                        TextView points = (TextView) findViewById(R.id.points2);
+                        points.setText("Poeng: " + value);
+                    }
+                } catch (NullPointerException ex) {
+                    //if the user does not have any points from before, set them to 0.
+                    UserInfo.setPoints(0);
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
     }
@@ -159,5 +193,4 @@ public class CheckedInActivity extends AppCompatActivity {
             return true;
         });
     }
-
 }
