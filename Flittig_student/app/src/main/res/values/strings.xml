@@ -22,6 +22,7 @@
 
     <string name="error_mesg">Du er ikke på skolen!</string>
     <string name="sjekk_ut">Sjekk ut</string>
+    <string name="scrollview_des">Scrollview over prizes</string>
 
 
 </resources>
