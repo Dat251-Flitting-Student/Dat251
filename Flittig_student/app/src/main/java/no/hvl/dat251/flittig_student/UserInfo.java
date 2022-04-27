@@ -85,7 +85,7 @@ public class UserInfo {
         return points;
     }
 
-    public void incrementPoints() {
+    public static void incrementPoints() {
         /* Increment the points of the user. */
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");

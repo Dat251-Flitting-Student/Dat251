@@ -58,14 +58,14 @@ public class CheckedInActivity extends AppCompatActivity {
                 chronometer.start();
                 running = true;
                 // Can uncomment when the incrementPoints are ready
-//                ProfileActivity.incrementPoints();
+                UserInfo.incrementPoints();
                 Log.d(TAG, "Point added");
                 Log.d(TAG, "Points: " + points);
                 chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                     public void onChronometerTick(Chronometer chronometer) {
                         if ((mTicks % 60 * 30) == 0) {
 //                        if ((mTicks % 10) == 0) {
-//                            ProfileActivity.incrementPoints();
+                            UserInfo.incrementPoints();
                             Log.d(TAG, "Point added");
                             Log.d(TAG, "Points: " + points);
                         }
