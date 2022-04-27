@@ -82,6 +82,19 @@ public class CheckedInActivity extends AppCompatActivity {
             chronometer = findViewById(R.id.stoppeklokke);
             chronometer.setBase(SystemClock.elapsedRealtime() + pauseValue);
             chronometer.start();
+            chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                public void onChronometerTick(Chronometer chronometer) {
+//                        if ((mTicks % 60 * 30) == 0) {
+                    if ((mTicks % 10) == 0) {
+                        if (HomeActivity.atSchool) {
+                            UserInfo.incrementPoints();
+                        }
+                        Log.d(TAG, "Point added");
+                        Log.d(TAG, "Points: " + points);
+                    }
+                    mTicks++;
+                }
+            });
         }
 
         btn_checkout.setOnClickListener(view -> {
