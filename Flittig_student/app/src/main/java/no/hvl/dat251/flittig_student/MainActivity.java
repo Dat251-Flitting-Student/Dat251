@@ -62,15 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        signInButton.setOnClickListener(view -> {
-            signIn();
-        });
-        /*btnSignOut.setOnClickListener(view -> {
-            mAuth.signOut();
-            btnSignOut.setVisibility(View.GONE);
-            signInButton.setVisibility(View.VISIBLE);
+        signInButton.setOnClickListener(view -> signIn());
 
-        });*/
+
 
     }
 
