@@ -10,7 +10,8 @@
         android:id="@+id/image"
         android:src="@color/green5"
         android:layout_width="60dp"
-        android:layout_height="60dp"/>
+        android:layout_height="60dp"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/prize_name"
