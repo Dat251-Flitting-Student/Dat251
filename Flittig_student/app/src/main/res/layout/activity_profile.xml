@@ -29,11 +29,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="8dp"
         android:text="Velg bilde"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.256"
+        app:layout_constraintEnd_toStartOf="@+id/btnUpload"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -41,12 +42,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="80dp"
         android:layout_marginBottom="8dp"
         android:text="Bruk bilde"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.737"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/btnChoose" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

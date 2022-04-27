@@ -17,9 +17,11 @@ import android.widget.Button;
 import android.net.Uri;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.identity.SignInClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -101,6 +103,15 @@ public class ProfileActivity extends AppCompatActivity {
 
         // on pressing btnUpload uploadImage() is called
         btnUpload.setOnClickListener(view -> uploadPicture());
+
+        findViewById(R.id.sign_out_button).setOnClickListener(view -> {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();;
+            mAuth.signOut();
+
+            Intent nIntent = new Intent(this, MainActivity.class);
+            nIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(nIntent);
+        });
 
     }
 

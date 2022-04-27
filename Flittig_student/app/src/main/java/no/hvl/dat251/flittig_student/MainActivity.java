@@ -62,12 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         signInButton.setOnClickListener(view -> signIn());
 
-        /*btnSignOut.setOnClickListener(view -> {
-            mAuth.signOut();
-            btnSignOut.setVisibility(View.GONE);
-            signInButton.setVisibility(View.VISIBLE);
 
-        });*/
 
     }
 
