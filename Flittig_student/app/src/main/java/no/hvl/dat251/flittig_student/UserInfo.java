@@ -19,10 +19,10 @@ public class UserInfo {
 
     private int points = -1;
 
-
     public static String getUsername() {
         // Get the username
         FirebaseUser username = FirebaseAuth.getInstance().getCurrentUser();
+
         return username.getDisplayName();
     }
 
@@ -53,7 +53,7 @@ public class UserInfo {
         // Set the total points of the user.
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference();
-        myRef.child("users").child(getUID()).child("points").child("total").setValue(value);
+        myRef.child("users").child(getUID()).child("points_total").setValue(value);
 
     }
 
@@ -66,7 +66,7 @@ public class UserInfo {
     public int getPoints() {
         /* Get the current points from the user. */
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points_total");
 
         myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 
@@ -88,7 +88,7 @@ public class UserInfo {
     public void incrementPoints() {
         /* Increment the points of the user. */
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points_total");
 
         myRef.get().addOnCompleteListener(task -> {
             if (!task.isSuccessful()) {

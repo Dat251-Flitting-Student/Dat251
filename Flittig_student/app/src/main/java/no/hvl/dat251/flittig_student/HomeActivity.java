@@ -234,6 +234,9 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_scores:
+                    Intent intent1 = new Intent(this, ScoreboardActivity.class);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent1);
                     return true;
 
             }

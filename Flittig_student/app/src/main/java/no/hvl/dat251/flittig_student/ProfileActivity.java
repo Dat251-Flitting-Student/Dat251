@@ -53,7 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void displayPoints() {
         // Get the points from the database, updated automatically.
-        myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+        myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points_total");
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -102,6 +102,9 @@ public class ProfileActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_scores:
+                    Intent intent1 = new Intent(this, ScoreboardActivity.class);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent1);
                     return true;
 
             }
