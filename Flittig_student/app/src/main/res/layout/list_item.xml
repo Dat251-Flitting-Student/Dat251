@@ -14,7 +14,7 @@
         android:contentDescription="TODO" />
 
     <TextView
-        android:id="@+id/prize_name"
+        android:id="@+id/prize_provider"
         android:layout_toRightOf="@id/image"
         android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
@@ -26,11 +26,11 @@
         android:id="@+id/prize_cost"
         android:layout_toRightOf="@id/image"
         android:layout_marginLeft="20dp"
-        android:layout_below="@id/prize_name"
+        android:layout_below="@id/prize_provider"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        android:maxLength="10"
+        android:maxLength="20"
         android:singleLine="true"
         android:text="Prize cost" />
 
