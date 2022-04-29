@@ -1,6 +1,7 @@
 package no.hvl.dat251.flittig_student;
 
 import android.net.Uri;
+import android.provider.ContactsContract;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -8,8 +9,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 public class UserInfo {
@@ -120,4 +125,63 @@ public class UserInfo {
         /* lagre som json objekt? */
         return 0;
     }
+
+    public static ArrayList<Prize> getPrizesFromDatabse() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference().child("Prizes").child("1");
+
+        ArrayList<Prize> prizes = new ArrayList<>();
+        // Attach a listener to read the data at our posts reference
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterable<DataSnapshot> list = dataSnapshot.getChildren();
+
+                for (DataSnapshot p : list) {
+                    Prize prize = p.getValue(Prize.class);
+                    prizes.add(prize);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });
+
+        return prizes;
+
+    }
+
+    /*
+    * private void getQuotes() {
+        Random r = new Random();
+        int int_random = r.nextInt(9);
+        myRef = database.getReference().child("Quotes").child(""+int_random);
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                try {
+                    String quote = dataSnapshot.getValue().toString();
+                    System.out.println(quote);
+                    Log.d(TAG, "The chosen quote is: " + quote);
+                    TextView quoteView = findViewById(R.id.quote);
+                    quoteView.setText(quote);
+                }
+                catch (NullPointerException ex){
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read quote.", error.toException());
+            }
+        });
+    }
+    * */
 }

@@ -228,6 +228,9 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_prize:
+                    intent = new Intent(this, PrizeMarket.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                     return true;
 
                 case R.id.ic_profile:
