@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -228,7 +227,7 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_prize:
-                    intent = new Intent(this, PrizeMarket.class);
+                    intent = new Intent(this, PrizeMarketActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     return true;

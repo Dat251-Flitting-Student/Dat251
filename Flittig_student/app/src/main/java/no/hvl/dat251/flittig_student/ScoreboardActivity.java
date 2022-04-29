@@ -107,7 +107,7 @@ public class ScoreboardActivity extends AppCompatActivity{
                     return true;
 
                 case R.id.ic_prize:
-                    intent = new Intent(this, PrizeMarket.class);
+                    intent = new Intent(this, PrizeMarketActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     if(CheckedInActivity.chronometer != null)

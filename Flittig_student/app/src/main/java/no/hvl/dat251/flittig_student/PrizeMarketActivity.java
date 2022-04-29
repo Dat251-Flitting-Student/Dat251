@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
 import no.hvl.dat251.flittig_student.databinding.ActivityPrizeMarketBinding;
 
-public class PrizeMarket extends AppCompatActivity {
+public class PrizeMarketActivity extends AppCompatActivity {
 
     private ListView listView;
     private ActivityPrizeMarketBinding binding;
