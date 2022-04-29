@@ -16,7 +16,9 @@ import java.util.Collections;
 import java.util.ArrayList;
 
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.widget.ArrayAdapter;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.ListView;
 
@@ -76,6 +78,20 @@ public class ScoreboardActivity extends AppCompatActivity{
 
         menu();
 
+        if (CheckedInActivity.running) {
+            CheckedInActivity.chronometer.setBase(SystemClock.elapsedRealtime() + CheckedInActivity.pauseValue);
+            CheckedInActivity.chronometer.start();
+            CheckedInActivity.chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                public void onChronometerTick(Chronometer chronometer) {
+                    if ((CheckedInActivity.mTicks % 60 * 30) == 0) {
+                        // comment for test in 10 sec
+//                    if ((CheckedInActivity.mTicks % 10) == 0) {
+                        UserInfo.incrementPoints();
+                    }
+                    CheckedInActivity.mTicks++;
+                }
+            });
+        }
     }
 
 
@@ -83,26 +99,37 @@ public class ScoreboardActivity extends AppCompatActivity{
         binding.bottomNavigationView.setSelectedItemId(R.id.ic_scores);
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            Intent intent;
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_home:
-                    Intent intent = new Intent(this, HomeActivity.class);
+                    intent = new Intent(this, HomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_prize:
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_profile:
-                    Intent intent1 = new Intent(this, ProfileActivity.class);
-                    intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent1);
+                    intent = new Intent(this, ProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_scores:
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
             }

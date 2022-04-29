@@ -226,31 +226,37 @@ public class ProfileActivity extends AppCompatActivity {
         binding.bottomNavigationView.setSelectedItemId(R.id.ic_profile);
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            Intent intent;
             switch (item.getItemId()) {
                 case R.id.ic_calendar:
-                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_home:
-                    Intent intent = new Intent(this, HomeActivity.class);
+                    intent = new Intent(this, HomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
-                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_prize:
-                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_profile:
-                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
                 case R.id.ic_scores:
-                    Intent intent1 = new Intent(this, ScoreboardActivity.class);
-                    intent1.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    startActivity(intent1);
-                    CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
+                    intent = new Intent(this, ScoreboardActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
+                    if(CheckedInActivity.chronometer != null)
+                        CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;
 
             }
