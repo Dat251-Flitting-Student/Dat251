@@ -17,7 +17,7 @@ public class UserInfo {
     All the user information for a logged in user.
      */
 
-    private int points = -1;
+    public int points = -1;
 
     public static String getUsername() {
         // Get the username
@@ -85,7 +85,7 @@ public class UserInfo {
         return points;
     }
 
-    public void incrementPoints() {
+    public static void incrementPoints() {
         /* Increment the points of the user. */
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points_total");
@@ -98,7 +98,7 @@ public class UserInfo {
                 Log.d("firebase", String.valueOf(task.getResult().getValue()));
                 int value = Integer.parseInt(String.valueOf(task.getResult().getValue()));
                 // the incrementation
-                if (value > 0) {
+                if (value >= 0) {
                     UserInfo.setPoints(value + 1);
                 }
             }

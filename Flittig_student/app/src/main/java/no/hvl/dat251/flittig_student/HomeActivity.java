@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -33,13 +34,14 @@ import no.hvl.dat251.flittig_student.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
 
+    public static boolean atSchool;
     //use it to request location updates and get the latest location
     private FusedLocationProviderClient fusedLocClient;
 
     private final int REQUEST_LOCATION = 1;
     private final String TAG = "MapActivity";
 
-    protected Button checkInBtn;
+    protected static Button checkInBtn;
     private TextView points;
 
     private ActivityHomeBinding binding;
@@ -66,7 +68,6 @@ public class HomeActivity extends AppCompatActivity {
         checkInBtn.setOnClickListener(view -> {
 
             getCurrentLocation();
-
         });
     }
 
@@ -159,6 +160,7 @@ public class HomeActivity extends AppCompatActivity {
 
                     if(isInGrid(location)) {
                         System.out.println("Du er på riktig sted!!");
+                        atSchool = true;
                         UserInfo.setStatus(true);
 
                         Intent intent = new Intent(this, CheckedInActivity.class);
@@ -166,6 +168,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else {
+                        atSchool = false;
                         System.out.println("Du er uten for området!!");
                         errorPop.show();
                     }
