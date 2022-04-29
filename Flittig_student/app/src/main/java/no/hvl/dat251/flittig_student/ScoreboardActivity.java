@@ -1,26 +1,18 @@
 package no.hvl.dat251.flittig_student;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.Manifest;
 import android.content.Intent;
-import java.io.*;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.widget.ArrayAdapter;
 import android.widget.Chronometer;
-import android.widget.TextView;
-import android.widget.ListView;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -37,7 +29,7 @@ public class ScoreboardActivity extends AppCompatActivity{
 
     RecyclerView recyclerView;
     DatabaseReference database;
-    MyAdapter myAdapter;
+    ScoreAdapter scoreAdapter;
     ArrayList<User> list;
     private ActivityScoreboardBinding binding;
     private final String TAG = "ScoreboardActivity";
@@ -54,8 +46,8 @@ public class ScoreboardActivity extends AppCompatActivity{
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         list = new ArrayList<>();
-        myAdapter = new MyAdapter(this, list);
-        recyclerView.setAdapter(myAdapter);
+        scoreAdapter = new ScoreAdapter(this, list);
+        recyclerView.setAdapter(scoreAdapter);
 
         query.addValueEventListener(new ValueEventListener() {
              @Override
@@ -67,7 +59,7 @@ public class ScoreboardActivity extends AppCompatActivity{
 
                  }
                  Collections.reverse(list);
-                 myAdapter.notifyDataSetChanged();
+                 scoreAdapter.notifyDataSetChanged();
              }
 
              @Override
@@ -115,6 +107,9 @@ public class ScoreboardActivity extends AppCompatActivity{
                     return true;
 
                 case R.id.ic_prize:
+                    intent = new Intent(this, PrizeMarket.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    startActivity(intent);
                     if(CheckedInActivity.chronometer != null)
                         CheckedInActivity.pauseValue = (int) (CheckedInActivity.chronometer.getBase() - SystemClock.elapsedRealtime());
                     return true;

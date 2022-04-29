@@ -111,7 +111,7 @@ public class HomeActivity extends AppCompatActivity {
     private void getPoints() {
         // Get the points from the database, updated automatically.
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+        DatabaseReference myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points_total");
 
 
         // Read from the database

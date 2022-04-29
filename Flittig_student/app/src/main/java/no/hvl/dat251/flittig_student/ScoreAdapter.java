@@ -4,22 +4,18 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-import no.hvl.dat251.flittig_student.R;
-import no.hvl.dat251.flittig_student.User;
-
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.MyViewHolder> {
 
     Context context;
     ArrayList<User> list;
     Integer i = 1;
 
-    public MyAdapter(Context context, ArrayList<User> list) {
+    public ScoreAdapter(Context context, ArrayList<User> list) {
         this.context = context;
         this.list = list;
     }

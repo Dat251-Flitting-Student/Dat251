@@ -142,7 +142,7 @@ public class CheckedInActivity extends AppCompatActivity {
 
     private void displayPoints() {
         // Get the points from the database, updated automatically.
-        myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points").child("total");
+        myRef = database.getReference().child("users").child(UserInfo.getUID()).child("points_total");
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
