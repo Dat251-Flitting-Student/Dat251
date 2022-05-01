@@ -19,9 +19,6 @@ import android.widget.Button;
 import android.net.Uri;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.identity.SignInClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -32,8 +29,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-
-import no.hvl.dat251.flittig_student.databinding.ActivityProfileBinding;
 
 public class ProfileActivity extends AppCompatActivity {
     /*
@@ -242,7 +237,7 @@ public class ProfileActivity extends AppCompatActivity {
                     return true;
 
                 case R.id.ic_prize:
-                    intent = new Intent(this, PrizeMarket.class);
+                    intent = new Intent(this, PrizeMarketActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     if(CheckedInActivity.chronometer != null)

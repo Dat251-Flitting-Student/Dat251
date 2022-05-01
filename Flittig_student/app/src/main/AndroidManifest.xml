@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Flittig_student">
         <activity
-            android:name=".PrizeMarket"
+            android:name=".PrizeMarketActivity"
             android:exported="false" />
         <activity
             android:name=".CheckedInActivity"
