@@ -30,6 +30,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import no.hvl.dat251.flittig_student.databinding.ActivityProfileBinding;
+
 public class ProfileActivity extends AppCompatActivity {
     /*
     This class shows the profile of a logged in User. All the information about a that user
